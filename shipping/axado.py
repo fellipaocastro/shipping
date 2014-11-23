@@ -22,10 +22,10 @@ class Axado():
 
     @staticmethod
     def check_arguments_type(argv):
-        return True if (Axado.is_valid_city_name(argv[1]))\
-            and (Axado.is_valid_city_name(argv[2]))\
-            and (Axado.is_valid_number(argv[3]))\
-            and (Axado.is_valid_number(argv[4])) else False
+        return True if Axado.is_valid_city_name(argv[1])\
+            and Axado.is_valid_city_name(argv[2])\
+            and Axado.is_valid_number(argv[3])\
+            and Axado.is_valid_number(argv[4]) else False
 
     def main(self):
         if not self.check_arguments_length(sys.argv):
