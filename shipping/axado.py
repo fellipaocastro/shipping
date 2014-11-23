@@ -6,12 +6,14 @@ import sys
 
 class Axado():
 
-    def check_arguments_length(self, argv):
+    @staticmethod
+    def check_arguments_length(argv):
         if len(argv) == 5:
             return True
         return False
 
-    def check_arguments_type(self, argv):
+    @staticmethod
+    def check_arguments_type(argv):
         if (not argv[1].isdigit()) and (not argv[2].isdigit()) and\
            (argv[3].isdigit()) and (argv[4].isdigit()):
             return True
