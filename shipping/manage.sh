@@ -21,7 +21,7 @@ case $1 in
     check)
         echo "Running source code checker..."
         echo ""
-        flake8 $ROOT_PATH --verbose
+        flake8 $ROOT_PATH
         ;;
     *)
         echo "Usage:"
