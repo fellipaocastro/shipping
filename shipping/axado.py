@@ -18,18 +18,14 @@ class Axado():
 
     @staticmethod
     def check_arguments_length(argv):
-        if len(argv) == 5:
-            return True
-        return False
+        return True if len(argv) == 5 else False
 
     @staticmethod
     def check_arguments_type(argv):
-        if (Axado.is_valid_city_name(argv[1])) \
-                and (Axado.is_valid_city_name(argv[2])) \
-                and (Axado.is_valid_number(argv[3])) \
-                and (Axado.is_valid_number(argv[4])):
-                    return True
-        return False
+        return True if (Axado.is_valid_city_name(argv[1]))\
+            and (Axado.is_valid_city_name(argv[2]))\
+            and (Axado.is_valid_number(argv[3]))\
+            and (Axado.is_valid_number(argv[4])) else False
 
     def main(self):
         if not self.check_arguments_length(sys.argv):
