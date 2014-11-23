@@ -1,5 +1,5 @@
-Shipping calculator
-===================
+Shipping
+========
 
 Shipping calculator.
 

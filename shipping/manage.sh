@@ -12,14 +12,14 @@ case $1 in
         pip install -r $ROOT_PATH/requirements/local.txt
         ;;
     run)
-        $ROOT_PATH/shipping/axado.py
+        $ROOT_PATH/shipping/axado.py $2 $3 $4 $5
         ;;
     test)
         echo "Running the test suit..."
-        nosetests --with-yanc --with-spec --spec-color shipping.tests
+        nosetests shipping.tests
         ;;
     check)
-        echo "Running flake8 source code checker..."
+        echo "Running source code checker..."
         echo ""
         flake8 $ROOT_PATH --verbose
         ;;
@@ -28,9 +28,13 @@ case $1 in
         echo "  ./manage.sh <command>"
         echo ""
         echo "Available commands:"
-        echo "  setup         Install dependencies"
-        echo "  run           Start shipping calculator"
-        echo "  test          Run the test suit"
-        echo "  check         Run flake8 source code checker"
+        echo "  setup\
+                                                 Install dependencies"
+        echo "  run <origin> <destination> <receipt> <weight>\
+         Start shipping calculator"
+        echo "  test\
+                                                  Run the test suit"
+        echo "  check\
+                                                 Run source code checker"
         ;;
  esac
