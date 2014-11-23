@@ -85,7 +85,7 @@ class AxadoTestCase(unittest.TestCase):
         non-digit
         """
 
-        argv = ['axado.py', 'florianopolis', 'brasilia', 'curitiba', '7', ]
+        argv = ['axado.py', 'florianopolis', 'brasilia', 'saopaulo', '7', ]
 
         self.assertFalse(Axado.check_arguments_type(argv))
 
@@ -107,7 +107,7 @@ class AxadoTestCase(unittest.TestCase):
         non-digit
         """
 
-        argv = ['axado.py', 'florianopolis', 'brasilia', '50', 'curitiba', ]
+        argv = ['axado.py', 'florianopolis', 'brasilia', '50', 'saopaulo', ]
 
         self.assertFalse(Axado.check_arguments_type(argv))
 
