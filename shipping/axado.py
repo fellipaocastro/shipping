@@ -5,6 +5,8 @@ import sys
 import re
 from decimal import Decimal
 
+from settings import DATABASES
+
 
 class Axado():
 
@@ -27,6 +29,9 @@ class Axado():
             and Axado.is_valid_number(argv[3])\
             and Axado.is_valid_number(argv[4]) else False
 
+    def csv_lookup(self):
+        print DATABASES['tabela']['rotas']
+
     def main(self):
         if not self.check_arguments_length(sys.argv):
             print """It is required 4 arguments in order to successfuly \
@@ -44,8 +49,11 @@ e.g., florianopolis brasilia 50 7"""
                 Decimal('.01'), rounding='ROUND_UP'))
             self.weight = float(Decimal(sys.argv[4]).quantize(
                 Decimal('.01'), rounding='ROUND_UP'))
+
             print "%s - %s - %s - %s" % (
                 self.origin, self.destination, self.receipt, self.weight)
+
+            self.csv_lookup()
 
 if __name__ == '__main__':
     axado = Axado()
