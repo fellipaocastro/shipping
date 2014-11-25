@@ -6,7 +6,7 @@ import unittest
 from .axado import Axado
 
 
-class AxadoTestCase(unittest.TestCase):
+class AxadoStaticTestCase(unittest.TestCase):
 
     def test_is_valid_city_name_with_an_invalid_city_name(self):
         """

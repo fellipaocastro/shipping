@@ -17,16 +17,9 @@ class Axado():
             self.destination = argv[2].lower()
             self.receipt = float(argv[3])
             self.weight = float(argv[4])
-            # self.receipt = float(Decimal(argv[3]).quantize(
-            #     Decimal('.01'), rounding='ROUND_UP'))
-            # self.weight = float(Decimal(argv[4]).quantize(
-            #     Decimal('.01'), rounding='ROUND_UP'))
 
-            # print "%s - %s - %s - %s" % (
-            #     self.origin, self.destination, self.receipt, self.weight)
-
-            self.table()
-            self.table2()
+            self.lookup_table()
+            self.lookup_table2()
 
     @staticmethod
     def is_valid_city_name(city_name):
@@ -47,7 +40,7 @@ class Axado():
             and Axado.is_valid_number(argv[3])\
             and Axado.is_valid_number(argv[4]) else False
 
-    def lookup_table_routes(self):
+    def lookup_csv_routes(self):
         with open(DATABASES['table']['routes']) as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
@@ -60,7 +53,7 @@ class Axado():
                     return True
         return False
 
-    def lookup_table_price_per_kg(self):
+    def lookup_csv_price_per_kg(self):
         with open(DATABASES['table']['price_per_kg']) as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
@@ -68,6 +61,21 @@ class Axado():
                         float(row['inicial']) <= self.weight <=
                         float(row['final']))):
                     self.price_per_kg = float(row['preco'])
+                    return True
+        return False
+
+    def lookup_tsv_routes(self):
+        with open(DATABASES['table2']['routes']) as csvfile:
+            reader = csv.DictReader(csvfile, delimiter='\t')
+            for row in reader:
+                if (row['origem'] == self.origin and row['destino'] ==
+                        self.destination):
+                    self.limit = float(row['limite'])
+                    self.delivery_time = int(row['prazo'])
+                    self.insurance = float(row['seguro'])
+                    self.icms = float(row['icms'])
+                    self.customs = float(row['alfandega'])
+                    self.kg = row['kg']
                     return True
         return False
 
@@ -95,16 +103,19 @@ e.g., florianopolis brasilia 50 7"""
     def sum_weight_price(self):
         self.subtotal += self.price_per_kg * self.weight
 
+    def sum_customs(self):
+        self.subtotal += self.subtotal * (self.customs / 100)
+
     def sum_icms(self):
         self.subtotal += self.subtotal / ((100 - self.icms) / 100)
 
-    def table(self):
+    def lookup_table(self):
             self.delivery_time = "-"
             self.price = "-"
             self.icms = 6.0
 
-            if self.lookup_table_routes():
-                if self.lookup_table_price_per_kg():
+            if self.lookup_csv_routes():
+                if self.lookup_csv_price_per_kg():
                     self.price = self.price_per_kg
 
             self.sum_insurance()
@@ -119,9 +130,10 @@ e.g., florianopolis brasilia 50 7"""
                 Decimal('.01'), rounding='ROUND_UP'))
             print "tabela:%s, %s" % (self.delivery_time, self.price)
 
-    def table2(self):
+    def lookup_table2(self):
         self.delivery_time = "-"
         self.price = "-"
+        self.lookup_tsv_routes()
         print "tabela2:%s, %s" % (self.delivery_time, self.price)
 
 if __name__ == '__main__':
