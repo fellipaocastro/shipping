@@ -4,13 +4,15 @@
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-DATABASES = {
-    'table': {
-        'routes': os.path.join(BASE_DIR, 'tabela', 'rotas.csv'),
-        'price_per_kg': os.path.join(BASE_DIR, 'tabela', 'preco_por_kg.csv'),
+TABLES = {
+    'tabela': {
+        'rotas': os.path.join(BASE_DIR, 'tabela', 'rotas.csv'),
+        'preco_por_kg': os.path.join(BASE_DIR, 'tabela', 'preco_por_kg.csv'),
+        'delimiter': ',',
     },
-    'table2': {
-        'routes': os.path.join(BASE_DIR, 'tabela2', 'rotas.tsv'),
-        'price_per_kg': os.path.join(BASE_DIR, 'tabela2', 'preco_por_kg.tsv'),
+    'tabela2': {
+        'rotas': os.path.join(BASE_DIR, 'tabela2', 'rotas.tsv'),
+        'preco_por_kg': os.path.join(BASE_DIR, 'tabela2', 'preco_por_kg.tsv'),
+        'delimiter': '\t',
     }
 }
