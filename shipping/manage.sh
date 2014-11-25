@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ROOT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
 echo "Shipping calculator"
 echo ""
@@ -9,10 +9,10 @@ case $1 in
     setup)
         echo "Installing dependencies..."
         echo ""
-        pip install -r $ROOT_PATH/requirements/local.txt
+        pip install -r $BASE_DIR/requirements/local.txt
         ;;
     run)
-        $ROOT_PATH/shipping/axado.py $2 $3 $4 $5
+        $BASE_DIR/shipping/axado.py $2 $3 $4 $5
         ;;
     test)
         echo "Running the test suit..."
@@ -21,7 +21,7 @@ case $1 in
     check)
         echo "Running source code checker..."
         echo ""
-        flake8 $ROOT_PATH
+        flake8 $BASE_DIR
         ;;
     *)
         echo "Usage:"
