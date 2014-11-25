@@ -41,7 +41,7 @@ class Axado():
             and Axado.is_valid_number(argv[4]) else False
 
     def lookup_csv_routes(self):
-        with open(TABLES['tabela']['rotas']) as csvfile:
+        with open(TABLES['tabela']['routes']) as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 if (row['origem'] == self.origin and row['destino'] ==
@@ -54,7 +54,7 @@ class Axado():
         return False
 
     def lookup_csv_price_per_kg(self):
-        with open(TABLES['tabela']['preco_por_kg']) as csvfile:
+        with open(TABLES['tabela']['price_per_kg']) as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 if (row['nome'] == self.kg and row['final'] != '' and (
@@ -69,7 +69,7 @@ class Axado():
         return False
 
     def lookup_tsv_routes(self):
-        with open(TABLES['tabela2']['rotas']) as csvfile:
+        with open(TABLES['tabela2']['routes']) as csvfile:
             reader = csv.DictReader(csvfile, delimiter='\t')
             for row in reader:
                 if (row['origem'] == self.origin and row['destino'] ==
@@ -84,7 +84,7 @@ class Axado():
         return False
 
     def lookup_tsv_price_per_kg(self):
-        with open(TABLES['tabela2']['preco_por_kg']) as csvfile:
+        with open(TABLES['tabela2']['price_per_kg']) as csvfile:
             reader = csv.DictReader(csvfile, delimiter='\t')
             for row in reader:
                 if (row['nome'] == self.kg and row['final'] != '' and (
