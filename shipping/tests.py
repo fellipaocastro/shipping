@@ -3,7 +3,7 @@
 
 import unittest
 
-from .axado import Axado
+from axado import Axado
 
 
 class AxadoStaticTestCase(unittest.TestCase):
