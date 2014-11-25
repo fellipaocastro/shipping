@@ -57,11 +57,15 @@ class Axado():
         with open(DATABASES['table']['price_per_kg']) as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                if (row['nome'] == self.kg and (
+                if (row['nome'] == self.kg and row['final'] != '' and (
                         float(row['inicial']) <= self.weight <=
                         float(row['final']))):
                     self.price_per_kg = float(row['preco'])
                     return True
+                elif (row['nome'] == self.kg and row['final'] == '' and (
+                        float(row['inicial']) <= self.weight)):
+                        self.price_per_kg = float(row['preco'])
+                        return True
         return False
 
     def lookup_tsv_routes(self):
@@ -79,6 +83,21 @@ class Axado():
                     return True
         return False
 
+    def lookup_tsv_price_per_kg(self):
+        with open(DATABASES['table2']['price_per_kg']) as csvfile:
+            reader = csv.DictReader(csvfile, delimiter='\t')
+            for row in reader:
+                if (row['nome'] == self.kg and row['final'] != '' and (
+                        float(row['inicial']) <= self.weight <=
+                        float(row['final']))):
+                    self.price_per_kg = float(row['preco'])
+                    return True
+                elif (row['nome'] == self.kg and row['final'] == '' and (
+                        float(row['inicial']) <= self.weight)):
+                        self.price_per_kg = float(row['preco'])
+                        return True
+        return False
+
     @staticmethod
     def check_arguments(argv):
         if not Axado.check_arguments_length(argv):
@@ -93,6 +112,9 @@ e.g., florianopolis brasilia 50 7"""
         else:
             return True
         return False
+
+    def check_limit(self):
+        return False if self.weight > self.limit else True
 
     def sum_insurance(self):
         self.subtotal = self.receipt * self.insurance / 100
@@ -110,30 +132,34 @@ e.g., florianopolis brasilia 50 7"""
         self.subtotal += self.subtotal / ((100 - self.icms) / 100)
 
     def lookup_table(self):
-            self.delivery_time = "-"
-            self.price = "-"
-            self.icms = 6.0
+        self.delivery_time = "-"
+        self.price = "-"
+        self.icms = 6.0
 
-            if self.lookup_csv_routes():
-                if self.lookup_csv_price_per_kg():
-                    self.price = self.price_per_kg
+        if self.lookup_csv_routes():
+            if self.lookup_csv_price_per_kg():
+                self.price = self.price_per_kg
 
-            self.sum_insurance()
-            print "SUBTOTAL: %s" % self.subtotal
-            self.sum_fixed()
-            print "SUBTOTAL: %s" % self.subtotal
-            self.sum_weight_price()
-            print "SUBTOTAL: %s" % self.subtotal
-            self.sum_icms()
-            print "SUBTOTAL: %s" % self.subtotal
-            self.price = float(Decimal(self.subtotal).quantize(
-                Decimal('.01'), rounding='ROUND_UP'))
-            print "tabela:%s, %s" % (self.delivery_time, self.price)
+                self.sum_insurance()
+                print "SUBTOTAL: %s" % self.subtotal
+                self.sum_fixed()
+                print "SUBTOTAL: %s" % self.subtotal
+                self.sum_weight_price()
+                print "SUBTOTAL: %s" % self.subtotal
+                self.sum_icms()
+                print "SUBTOTAL: %s" % self.subtotal
+                self.price = float(Decimal(self.subtotal).quantize(
+                    Decimal('.01'), rounding='ROUND_UP'))
+        print "tabela:%s, %s" % (self.delivery_time, self.price)
 
     def lookup_table2(self):
         self.delivery_time = "-"
         self.price = "-"
-        self.lookup_tsv_routes()
+
+        if self.lookup_tsv_routes():
+            if self.lookup_tsv_price_per_kg():
+                if self.check_limit():
+                    print "Dentro dos limites"
         print "tabela2:%s, %s" % (self.delivery_time, self.price)
 
 if __name__ == '__main__':
