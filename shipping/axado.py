@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
 import sys
 import re
 import csv
@@ -13,12 +12,10 @@ class Axado():
 
     def __init__(self, table, argv):
         self.table = table
-
         self.origin = argv[1].lower()
         self.destination = argv[2].lower()
         self.receipt = float(argv[3])
         self.weight = float(argv[4])
-
         self.get_table_data()
 
     @staticmethod
@@ -50,7 +47,6 @@ class Axado():
                     self.delivery_time = int(row['prazo'])
                     self.insurance = float(row['seguro'])
                     self.kg = row['kg']
-
                     if self.table == 'tabela':
                         self.fixed = float(row['fixa'])
                     elif self.table == 'tabela2':
@@ -93,6 +89,7 @@ e.g., florianopolis brasilia 50 7"""
 
     def check_limit(self):
         if self.table == 'tabela2' and self.weight > self.limit:
+            self.delivery_time = "-"
             return False
         else:
             return True
@@ -117,9 +114,9 @@ e.g., florianopolis brasilia 50 7"""
         self.subtotal += self.subtotal / ((100 - self.icms) / 100)
 
     def get_table_data(self):
+        self.delivery_time = "-"
         self.price = "-"
         self.subtotal = 0.0
-
         if self.get_route_data():
             if self.check_limit():
                 if self.get_price_per_kg():
@@ -130,8 +127,6 @@ e.g., florianopolis brasilia 50 7"""
                     self.sum_icms()
                     self.price = float(Decimal(self.subtotal).quantize(
                         Decimal('.01'), rounding='ROUND_UP'))
-            else:
-                self.delivery_time = "-"
         print "%s:%s, %s" % (self.table, self.delivery_time, self.price)
 
 if __name__ == '__main__':
