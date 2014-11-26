@@ -1,14 +1,9 @@
 #!/bin/bash
-
 BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
-
-echo "Shipping calculator"
-echo ""
-
+echo -e "Shipping calculator\n"
 case $1 in
     setup)
-        echo "Installing dependencies..."
-        echo ""
+        echo -e "Installing dependencies...\n"
         pip install -r $BASE_DIR/requirements/local.txt
         ;;
     run)
@@ -19,22 +14,21 @@ case $1 in
         nosetests shipping.tests
         ;;
     check)
-        echo "Running source code checker..."
-        echo ""
+        echo -e "Running source code checker...\n"
         flake8 $BASE_DIR
         ;;
     *)
         echo "Usage:"
-        echo "  ./manage.sh <command>"
-        echo ""
+        echo -e "  ./manage.sh <command>\n"
         echo "Available commands:"
         echo "  setup\
-                                                 Install dependencies"
+                                                Install dependencies"
         echo "  run <origin> <destination> <receipt> <weight>\
-         Start shipping calculator"
+        Start shipping calculator"
         echo "  test\
-                                                  Run the test suit"
+                                                 Run the test suit"
         echo "  check\
-                                                 Run source code checker"
+                                                Run source code checker"
         ;;
- esac
+esac
+echo -e "\nThank you!"

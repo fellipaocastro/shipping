@@ -130,6 +130,11 @@ e.g., florianopolis brasilia 50 7"""
         print "%s:%s, %s" % (self.table, self.delivery_time, self.price)
 
 if __name__ == '__main__':
-    if Axado.check_arguments(sys.argv):
-        for table in sorted(TABLES):
-            axado = Axado(table, sys.argv)
+    try:
+        if Axado.check_arguments(sys.argv):
+            for table in sorted(TABLES):
+                axado = Axado(table, sys.argv)
+    except Exception as e:
+        # print sys.exc_info()[0]
+        # print e
+        print "An unexpected exception occurred!"
