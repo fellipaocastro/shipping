@@ -137,4 +137,4 @@ if __name__ == '__main__':
     except Exception as e:
         # print sys.exc_info()[0]
         # print e
-        print "An unexpected exception occurred!"
+        print "Oops, something went wrong."
