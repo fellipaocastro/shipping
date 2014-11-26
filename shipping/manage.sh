@@ -12,7 +12,7 @@ case $1 in
         pip install -r $BASE_DIR/requirements/local.txt
         ;;
     run)
-        $BASE_DIR/shipping/axado.py $2 $3 $4 $5
+        $BASE_DIR/shipping/axado.py ${@:2}
         ;;
     test)
         echo "Running the test suit..."

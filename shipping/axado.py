@@ -11,15 +11,15 @@ from settings import TABLES
 
 class Axado():
 
-    def __init__(self, argv):
-        if Axado.check_arguments(argv):
-            self.origin = argv[1].lower()
-            self.destination = argv[2].lower()
-            self.receipt = float(argv[3])
-            self.weight = float(argv[4])
+    def __init__(self, table, argv):
+        self.table = table
 
-            self.lookup_table()
-            self.lookup_table2()
+        self.origin = argv[1].lower()
+        self.destination = argv[2].lower()
+        self.receipt = float(argv[3])
+        self.weight = float(argv[4])
+
+        getattr(self, 'get_%s_data' % table)()
 
     @staticmethod
     def is_valid_city_name(city_name):
@@ -40,55 +40,33 @@ class Axado():
             and Axado.is_valid_number(argv[3])\
             and Axado.is_valid_number(argv[4]) else False
 
-    def lookup_csv_routes(self):
-        with open(TABLES['tabela']['routes']) as csvfile:
-            reader = csv.DictReader(csvfile)
+    def get_route_data(self):
+        with open(TABLES[self.table]['routes']) as csvfile:
+            reader = csv.DictReader(
+                csvfile, delimiter=TABLES[self.table]['delimiter'])
             for row in reader:
                 if (row['origem'] == self.origin and row['destino'] ==
                         self.destination):
                     self.delivery_time = int(row['prazo'])
                     self.insurance = float(row['seguro'])
                     self.kg = row['kg']
-                    self.fixed = float(row['fixa'])
+
+                    if self.table == 'table':
+                        self.fixed = float(row['fixa'])
+                    elif self.table == 'table2':
+                        self.limit = float(row['limite'])
+                        self.icms = float(row['icms'])
+                        self.customs = float(row['alfandega'])
                     return True
         return False
 
-    def lookup_csv_price_per_kg(self):
-        with open(TABLES['tabela']['price_per_kg']) as csvfile:
-            reader = csv.DictReader(csvfile)
+    def get_price_per_kg(self):
+        with open(TABLES[self.table]['price_per_kg']) as csvfile:
+            reader = csv.DictReader(
+                csvfile, delimiter=TABLES[self.table]['delimiter'])
             for row in reader:
                 if (row['nome'] == self.kg and row['final'] != '' and (
-                        float(row['inicial']) <= self.weight <=
-                        float(row['final']))):
-                    self.price_per_kg = float(row['preco'])
-                    return True
-                elif (row['nome'] == self.kg and row['final'] == '' and (
-                        float(row['inicial']) <= self.weight)):
-                        self.price_per_kg = float(row['preco'])
-                        return True
-        return False
-
-    def lookup_tsv_routes(self):
-        with open(TABLES['tabela2']['routes']) as csvfile:
-            reader = csv.DictReader(csvfile, delimiter='\t')
-            for row in reader:
-                if (row['origem'] == self.origin and row['destino'] ==
-                        self.destination):
-                    self.limit = float(row['limite'])
-                    self.delivery_time = int(row['prazo'])
-                    self.insurance = float(row['seguro'])
-                    self.icms = float(row['icms'])
-                    self.customs = float(row['alfandega'])
-                    self.kg = row['kg']
-                    return True
-        return False
-
-    def lookup_tsv_price_per_kg(self):
-        with open(TABLES['tabela2']['price_per_kg']) as csvfile:
-            reader = csv.DictReader(csvfile, delimiter='\t')
-            for row in reader:
-                if (row['nome'] == self.kg and row['final'] != '' and (
-                        float(row['inicial']) <= self.weight <=
+                        float(row['inicial']) <= self.weight <
                         float(row['final']))):
                     self.price_per_kg = float(row['preco'])
                     return True
@@ -117,9 +95,9 @@ e.g., florianopolis brasilia 50 7"""
         return False if self.weight > self.limit else True
 
     def sum_insurance(self):
-        self.subtotal = self.receipt * self.insurance / 100
+        self.subtotal += self.receipt * self.insurance / 100
 
-    def sum_fixed(self):
+    def sum_fixed_tax(self):
         self.subtotal += self.fixed
 
     def sum_weight_price(self):
@@ -131,18 +109,17 @@ e.g., florianopolis brasilia 50 7"""
     def sum_icms(self):
         self.subtotal += self.subtotal / ((100 - self.icms) / 100)
 
-    def lookup_table(self):
+    def get_table_data(self):
         self.delivery_time = "-"
         self.price = "-"
-        self.icms = 6.0
+        self.subtotal = 0.0
+        self.icms = TABLES[self.table]['icms']
 
-        if self.lookup_csv_routes():
-            if self.lookup_csv_price_per_kg():
-                self.price = self.price_per_kg
-
+        if self.get_route_data():
+            if self.get_price_per_kg():
                 self.sum_insurance()
                 print "SUBTOTAL: %s" % self.subtotal
-                self.sum_fixed()
+                self.sum_fixed_tax()
                 print "SUBTOTAL: %s" % self.subtotal
                 self.sum_weight_price()
                 print "SUBTOTAL: %s" % self.subtotal
@@ -150,17 +127,29 @@ e.g., florianopolis brasilia 50 7"""
                 print "SUBTOTAL: %s" % self.subtotal
                 self.price = float(Decimal(self.subtotal).quantize(
                     Decimal('.01'), rounding='ROUND_UP'))
-        print "tabela:%s, %s" % (self.delivery_time, self.price)
+        print "%s:%s, %s" % (self.table, self.delivery_time, self.price)
 
-    def lookup_table2(self):
+    def get_table2_data(self):
         self.delivery_time = "-"
         self.price = "-"
+        self.subtotal = 0.0
 
-        if self.lookup_tsv_routes():
-            if self.lookup_tsv_price_per_kg():
+        if self.get_route_data():
+            if self.get_price_per_kg():
                 if self.check_limit():
-                    print "Dentro dos limites"
-        print "tabela2:%s, %s" % (self.delivery_time, self.price)
+                    self.sum_insurance()
+                    print "SUBTOTAL: %s" % self.subtotal
+                    self.sum_weight_price()
+                    print "SUBTOTAL: %s" % self.subtotal
+                    self.sum_customs()
+                    print "SUBTOTAL: %s" % self.subtotal
+                    self.sum_icms()
+                    print "SUBTOTAL: %s" % self.subtotal
+                    self.price = float(Decimal(self.subtotal).quantize(
+                        Decimal('.01'), rounding='ROUND_UP'))
+        print "%s:%s, %s" % (self.table, self.delivery_time, self.price)
 
 if __name__ == '__main__':
-    axado = Axado(sys.argv)
+    if Axado.check_arguments(sys.argv):
+        axado = Axado('table', sys.argv)
+        axado = Axado('table2', sys.argv)
