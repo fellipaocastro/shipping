@@ -68,8 +68,8 @@ class Axado():
                     return True
                 elif (row['nome'] == self.kg and row['final'] == '' and (
                         float(row['inicial']) <= self.weight)):
-                        self.price_per_kg = float(row['preco'])
-                        return True
+                    self.price_per_kg = float(row['preco'])
+                    return True
         return False
 
     @staticmethod
