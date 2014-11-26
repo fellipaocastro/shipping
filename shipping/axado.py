@@ -101,35 +101,37 @@ e.g., florianopolis brasilia 50 7"""
         self.subtotal += self.receipt * self.insurance / 100
 
     def sum_fixed_tax(self):
-        self.subtotal += self.fixed
+        if self.table == 'tabela':
+            self.subtotal += self.fixed
 
     def sum_weight_price(self):
         self.subtotal += self.price_per_kg * self.weight
 
     def sum_customs(self):
-        self.subtotal += self.subtotal * (self.customs / 100)
+        if self.table == 'tabela2':
+            self.subtotal += self.subtotal * (self.customs / 100)
 
     def sum_icms(self):
+        if self.table == 'tabela':
+            self.icms = TABLES[self.table]['icms']
         self.subtotal += self.subtotal / ((100 - self.icms) / 100)
 
     def get_table_data(self):
-        self.delivery_time = "-"
         self.price = "-"
         self.subtotal = 0.0
 
         if self.get_route_data():
-            if self.get_price_per_kg():
-                if self.check_limit():
+            if self.check_limit():
+                if self.get_price_per_kg():
                     self.sum_insurance()
                     self.sum_weight_price()
-                    if self.table == 'tabela':
-                        self.sum_fixed_tax()
-                        self.icms = TABLES[self.table]['icms']
-                    elif self.table == 'tabela2':
-                        self.sum_customs()
+                    self.sum_fixed_tax()
+                    self.sum_customs()
                     self.sum_icms()
                     self.price = float(Decimal(self.subtotal).quantize(
                         Decimal('.01'), rounding='ROUND_UP'))
+            else:
+                self.delivery_time = "-"
         print "%s:%s, %s" % (self.table, self.delivery_time, self.price)
 
 if __name__ == '__main__':
