@@ -5,7 +5,7 @@ import re
 import csv
 from decimal import Decimal
 
-from settings import TABLES
+from settings import TABLE1_NAME, TABLE2_NAME, TABLES
 
 
 class Axado():
@@ -47,9 +47,9 @@ class Axado():
                     self.delivery_time = int(row['prazo'])
                     self.insurance = float(row['seguro'])
                     self.kg = row['kg']
-                    if self.table == 'tabela':
+                    if self.table == TABLE1_NAME:
                         self.fixed = float(row['fixa'])
-                    elif self.table == 'tabela2':
+                    elif self.table == TABLE2_NAME:
                         self.limit = float(row['limite'])
                         self.icms = float(row['icms'])
                         self.customs = float(row['alfandega'])
@@ -88,7 +88,7 @@ e.g., florianopolis brasilia 50 7"""
         return False
 
     def check_limit(self):
-        if self.table == 'tabela2' and self.weight > self.limit:
+        if self.table == TABLE2_NAME and self.weight > self.limit:
             self.delivery_time = "-"
             return False
         else:
@@ -98,18 +98,18 @@ e.g., florianopolis brasilia 50 7"""
         self.subtotal += self.receipt * self.insurance / 100
 
     def sum_fixed_tax(self):
-        if self.table == 'tabela':
+        if self.table == TABLE1_NAME:
             self.subtotal += self.fixed
 
     def sum_weight_price(self):
         self.subtotal += self.price_per_kg * self.weight
 
     def sum_customs(self):
-        if self.table == 'tabela2':
+        if self.table == TABLE2_NAME:
             self.subtotal += self.subtotal * (self.customs / 100)
 
     def sum_icms(self):
-        if self.table == 'tabela':
+        if self.table == TABLE1_NAME:
             self.icms = TABLES[self.table]['icms']
         self.subtotal += self.subtotal / ((100 - self.icms) / 100)
 
