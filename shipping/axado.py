@@ -19,7 +19,7 @@ class Axado():
         self.receipt = float(argv[3])
         self.weight = float(argv[4])
 
-        getattr(self, 'get_%s_data' % table)()
+        self.get_table_data()
 
     @staticmethod
     def is_valid_city_name(city_name):
@@ -51,9 +51,9 @@ class Axado():
                     self.insurance = float(row['seguro'])
                     self.kg = row['kg']
 
-                    if self.table == 'table':
+                    if self.table == 'tabela':
                         self.fixed = float(row['fixa'])
-                    elif self.table == 'table2':
+                    elif self.table == 'tabela2':
                         self.limit = float(row['limite'])
                         self.icms = float(row['icms'])
                         self.customs = float(row['alfandega'])
@@ -92,7 +92,10 @@ e.g., florianopolis brasilia 50 7"""
         return False
 
     def check_limit(self):
-        return False if self.weight > self.limit else True
+        if self.table == 'tabela2' and self.weight > self.limit:
+            return False
+        else:
+            return True
 
     def sum_insurance(self):
         self.subtotal += self.receipt * self.insurance / 100
@@ -113,43 +116,23 @@ e.g., florianopolis brasilia 50 7"""
         self.delivery_time = "-"
         self.price = "-"
         self.subtotal = 0.0
-        self.icms = TABLES[self.table]['icms']
-
-        if self.get_route_data():
-            if self.get_price_per_kg():
-                self.sum_insurance()
-                print "SUBTOTAL: %s" % self.subtotal
-                self.sum_fixed_tax()
-                print "SUBTOTAL: %s" % self.subtotal
-                self.sum_weight_price()
-                print "SUBTOTAL: %s" % self.subtotal
-                self.sum_icms()
-                print "SUBTOTAL: %s" % self.subtotal
-                self.price = float(Decimal(self.subtotal).quantize(
-                    Decimal('.01'), rounding='ROUND_UP'))
-        print "%s:%s, %s" % (self.table, self.delivery_time, self.price)
-
-    def get_table2_data(self):
-        self.delivery_time = "-"
-        self.price = "-"
-        self.subtotal = 0.0
 
         if self.get_route_data():
             if self.get_price_per_kg():
                 if self.check_limit():
                     self.sum_insurance()
-                    print "SUBTOTAL: %s" % self.subtotal
                     self.sum_weight_price()
-                    print "SUBTOTAL: %s" % self.subtotal
-                    self.sum_customs()
-                    print "SUBTOTAL: %s" % self.subtotal
+                    if self.table == 'tabela':
+                        self.sum_fixed_tax()
+                        self.icms = TABLES[self.table]['icms']
+                    elif self.table == 'tabela2':
+                        self.sum_customs()
                     self.sum_icms()
-                    print "SUBTOTAL: %s" % self.subtotal
                     self.price = float(Decimal(self.subtotal).quantize(
                         Decimal('.01'), rounding='ROUND_UP'))
         print "%s:%s, %s" % (self.table, self.delivery_time, self.price)
 
 if __name__ == '__main__':
     if Axado.check_arguments(sys.argv):
-        axado = Axado('table', sys.argv)
-        axado = Axado('table2', sys.argv)
+        for table in sorted(TABLES):
+            axado = Axado(table, sys.argv)
