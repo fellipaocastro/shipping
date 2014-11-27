@@ -15,11 +15,11 @@ logging.config.dictConfig(LOGGING)
 # create logger
 
 # 'application' code
-logger.debug('debug message')
-logger.info('info message')
-logger.warn('warn message')
-logger.error('error message')
-logger.critical('critical message')
+logger.debug('This is a debug message')
+logger.info('This is a info message')
+logger.warn('This is a warn message')
+logger.error('This is a error message')
+logger.critical('This is a critical message')
 
 
 class Axado():

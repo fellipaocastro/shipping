@@ -25,10 +25,10 @@ TABLES = {
 LOGGING = {
     'version': 1,
     'formatters': {
-        'standard': {
+        'colored': {
             '()': 'colorlog.ColoredFormatter',
             'format': "%(purple)s%(asctime)s %(log_color)s%(levelname)\
--8s%(reset)s %(bg_blue)s[%(name)s]%(reset)s %(log_color)s%(message)s",
+-8s%(reset)s %(bg_blue)s[%(name)s]%(reset)s %(message)s",
             'datefmt': '%Y-%m-%d %H:%M:%S',
         }
     },
@@ -37,7 +37,7 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': '/tmp/shipping_' + date.today().strftime('%Y%m%d') + '.log', 
-            'formatter': 'standard',
+            'formatter': 'colored',
         },
     },
     'loggers': {
