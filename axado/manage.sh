@@ -7,7 +7,7 @@ case $1 in
         pip install -r $BASE_DIR/requirements/local.txt
         ;;
     run)
-        $BASE_DIR/shipping/axado.py ${@:2}
+        $BASE_DIR/axado/axado.py ${@:2}
         ;;
     test)
         echo "Running the test suit..."
@@ -19,7 +19,7 @@ case $1 in
         ;;
     *)
         echo "Usage:"
-        echo -e "  ./manage.sh <command>\n"
+        echo -e "  axado/manage.sh <command>\n"
         echo "Available commands:"
         echo "  setup\
                                                 Install dependencies"
@@ -31,4 +31,3 @@ case $1 in
                                                 Run source code checker"
         ;;
 esac
-echo -e "\nThank you!"

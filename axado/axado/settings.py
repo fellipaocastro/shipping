@@ -10,14 +10,14 @@ TABLE1_NAME = 'tabela'
 TABLE2_NAME = 'tabela2'
 TABLES = {
     TABLE1_NAME: {
-        'routes': os.path.join(BASE_DIR, TABLE1_NAME, 'rotas.csv'),
-        'price_per_kg': os.path.join(BASE_DIR, 'tabela', 'preco_por_kg.csv'),
+        'routes': os.path.join(BASE_DIR, 'static', TABLE1_NAME, 'rotas.csv'),
+        'price_per_kg': os.path.join(BASE_DIR, 'static', 'tabela', 'preco_por_kg.csv'),
         'delimiter': ',',
         'icms': 6.0,
     },
     TABLE2_NAME: {
-        'routes': os.path.join(BASE_DIR, TABLE2_NAME, 'rotas.tsv'),
-        'price_per_kg': os.path.join(BASE_DIR, 'tabela2', 'preco_por_kg.tsv'),
+        'routes': os.path.join(BASE_DIR, 'static', TABLE2_NAME, 'rotas.tsv'),
+        'price_per_kg': os.path.join(BASE_DIR, 'static', 'tabela2', 'preco_por_kg.tsv'),
         'delimiter': '\t',
     },
 }
@@ -45,6 +45,11 @@ LOGGING = {
             'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True
-        }
+        },
+        'shipping': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
     },
 }

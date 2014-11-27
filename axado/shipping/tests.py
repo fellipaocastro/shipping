@@ -2,54 +2,54 @@
 # coding: utf-8
 import unittest
 
-from axado import Axado
+from .shipping import Shipping
 
 
-class AxadoStaticTestCase(unittest.TestCase):
+class ShippingStaticTestCase(unittest.TestCase):
     def test_is_valid_city_name_with_an_invalid_city_name(self):
         """
         is_valid_city_name() should return False with an invalid city name
         """
-        self.assertFalse(Axado.is_valid_city_name('florianopolis50'))
+        self.assertFalse(Shipping.is_valid_city_name('florianopolis50'))
 
     def test_is_valid_city_name_with_a_valid_city_name(self):
         """
         is_valid_city_name() should return True with a valid city name
         """
-        self.assertTrue(Axado.is_valid_city_name('Florianopolis'))
+        self.assertTrue(Shipping.is_valid_city_name('Florianopolis'))
 
     def test_is_valid_number_with_an_invalid_number(self):
         """
         is_valid_number() should return False with an invalid number
         """
-        self.assertFalse(Axado.is_valid_number('florianopolis50'))
+        self.assertFalse(Shipping.is_valid_number('florianopolis50'))
 
     def test_is_valid_number_with_a_valid_number(self):
         """
         is_valid_number() should return True with a valid number
         """
-        self.assertTrue(Axado.is_valid_number('50.001'))
+        self.assertTrue(Shipping.is_valid_number('50.001'))
 
     def test_check_arguments_length_with_5_arguments(self):
         """
         check_arguments_length() should return True with 5 arguments
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', ]
-        self.assertTrue(Axado.check_arguments_length(argv))
+        self.assertTrue(Shipping.check_arguments_length(argv))
 
     def test_check_arguments_length_with_3_arguments(self):
         """
         check_arguments_length() should return False with 3 arguments
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', ]
-        self.assertFalse(Axado.check_arguments_length(argv))
+        self.assertFalse(Shipping.check_arguments_length(argv))
 
     def test_check_arguments_length_with_7_arguments(self):
         """
         check_arguments_length() should return False with 7 arguments
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', '5', '6', ]
-        self.assertFalse(Axado.check_arguments_length(argv))
+        self.assertFalse(Shipping.check_arguments_length(argv))
 
     def test_check_arguments_type_with_second_argument_as_an_invalid_city_name(
             self):
@@ -58,7 +58,7 @@ class AxadoStaticTestCase(unittest.TestCase):
         invalid city name
         """
         argv = ['axado.py', '1', 'brasilia', '50', '7', ]
-        self.assertFalse(Axado.check_arguments_type(argv))
+        self.assertFalse(Shipping.check_arguments_type(argv))
 
     def test_check_arguments_type_with_second_argument_as_a_valid_city_name(
             self):
@@ -67,7 +67,7 @@ class AxadoStaticTestCase(unittest.TestCase):
         valid city name
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', ]
-        self.assertTrue(Axado.check_arguments_type(argv))
+        self.assertTrue(Shipping.check_arguments_type(argv))
 
     def test_check_arguments_type_with_third_argument_as_an_invalid_city_name(
             self):
@@ -76,7 +76,7 @@ class AxadoStaticTestCase(unittest.TestCase):
         invalid city name
         """
         argv = ['axado.py', 'florianopolis', '1', '50', '7', ]
-        self.assertFalse(Axado.check_arguments_type(argv))
+        self.assertFalse(Shipping.check_arguments_type(argv))
 
     def test_check_arguments_type_with_third_argument_as_a_valid_city_name(
             self):
@@ -85,7 +85,7 @@ class AxadoStaticTestCase(unittest.TestCase):
         valid city name
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', ]
-        self.assertTrue(Axado.check_arguments_type(argv))
+        self.assertTrue(Shipping.check_arguments_type(argv))
 
     def test_check_arguments_type_with_fourth_argument_as_an_invalid_number(
             self):
@@ -94,7 +94,7 @@ class AxadoStaticTestCase(unittest.TestCase):
         invalid number
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', 'saopaulo', '7', ]
-        self.assertFalse(Axado.check_arguments_type(argv))
+        self.assertFalse(Shipping.check_arguments_type(argv))
 
     def test_check_arguments_type_with_fourth_argument_as_a_valid_number(
             self):
@@ -103,7 +103,7 @@ class AxadoStaticTestCase(unittest.TestCase):
         valid number
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', ]
-        self.assertTrue(Axado.check_arguments_type(argv))
+        self.assertTrue(Shipping.check_arguments_type(argv))
 
     def test_check_arguments_type_with_fifth_argument_as_an_invalid_number(
             self):
@@ -112,7 +112,7 @@ class AxadoStaticTestCase(unittest.TestCase):
         invalid number
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', 'saopaulo', ]
-        self.assertFalse(Axado.check_arguments_type(argv))
+        self.assertFalse(Shipping.check_arguments_type(argv))
 
     def test_check_arguments_type_with_fifth_argument_as_a_valid_number(
             self):
@@ -121,7 +121,7 @@ class AxadoStaticTestCase(unittest.TestCase):
         valid number
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', ]
-        self.assertTrue(Axado.check_arguments_type(argv))
+        self.assertTrue(Shipping.check_arguments_type(argv))
 
 if __name__ == '__main__':
     unittest.main()

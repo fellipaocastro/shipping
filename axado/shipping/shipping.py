@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
-import sys
 import re
 import csv
 import logging
 import logging.config
 from decimal import Decimal
 
-from settings import TABLE1_NAME, TABLE2_NAME, TABLES, LOGGING
+from axado.settings import TABLE1_NAME, TABLE2_NAME, TABLES, LOGGING
 
 logger = logging.getLogger(__name__)
 logging.config.dictConfig(LOGGING)
@@ -22,7 +21,7 @@ logger.error('This is a error message')
 logger.critical('This is a critical message')
 
 
-class Axado():
+class Shipping():
 
     def __init__(self, table, argv):
         self.table = table
@@ -46,10 +45,10 @@ class Axado():
 
     @staticmethod
     def check_arguments_type(argv):
-        return True if Axado.is_valid_city_name(argv[1])\
-            and Axado.is_valid_city_name(argv[2])\
-            and Axado.is_valid_number(argv[3])\
-            and Axado.is_valid_number(argv[4]) else False
+        return True if Shipping.is_valid_city_name(argv[1])\
+            and Shipping.is_valid_city_name(argv[2])\
+            and Shipping.is_valid_number(argv[3])\
+            and Shipping.is_valid_number(argv[4]) else False
 
     def get_route_data(self):
         with open(TABLES[self.table]['routes']) as csvfile:
@@ -88,12 +87,12 @@ class Axado():
 
     @staticmethod
     def check_arguments(argv):
-        if not Axado.check_arguments_length(argv):
+        if not Shipping.check_arguments_length(argv):
             print """It is required 4 arguments in order to successfuly \
 calculate shipping.\n
 They are: <origin> <destination> <receipt> <weight>.\n
 e.g., florianopolis brasilia 50 7"""
-        elif not Axado.check_arguments_type(argv):
+        elif not Shipping.check_arguments_type(argv):
             print """Whereas the first two arguments should be valid city \
 names, third and fourth ones should be valid numbers.\n
 e.g., florianopolis brasilia 50 7"""
@@ -142,13 +141,3 @@ e.g., florianopolis brasilia 50 7"""
                     self.price = float(Decimal(self.subtotal).quantize(
                         Decimal('.01'), rounding='ROUND_UP'))
         print "%s:%s, %s" % (self.table, self.delivery_time, self.price)
-
-if __name__ == '__main__':
-    try:
-        if Axado.check_arguments(sys.argv):
-            for table in sorted(TABLES):
-                axado = Axado(table, sys.argv)
-    except Exception as e:
-        # print sys.exc_info()[0]
-        # print e
-        print "Oops, something went wrong."

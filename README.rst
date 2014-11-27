@@ -21,7 +21,7 @@ Usage
 
 .. code-block:: bash
 
-    $ shipping/manage.sh run <origin> <destination> <receipt> <weight>
+    $ axado/manage.sh run <origin> <destination> <receipt> <weight>
 
 Test
 ----
