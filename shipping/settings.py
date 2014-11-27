@@ -1,6 +1,9 @@
 # coding: utf-8
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from datetime import date
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 TABLE1_NAME = 'tabela'
@@ -16,5 +19,32 @@ TABLES = {
         'routes': os.path.join(BASE_DIR, TABLE2_NAME, 'rotas.tsv'),
         'price_per_kg': os.path.join(BASE_DIR, 'tabela2', 'preco_por_kg.tsv'),
         'delimiter': '\t',
+    },
+}
+
+LOGGING = {
+    'version': 1,
+    'formatters': {
+        'standard': {
+            '()': 'colorlog.ColoredFormatter',
+            'format': "%(purple)s%(asctime)s %(log_color)s%(levelname)\
+-8s%(reset)s %(bg_blue)s[%(name)s]%(reset)s %(log_color)s%(message)s",
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        }
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/tmp/shipping_' + date.today().strftime('%Y%m%d') + '.log', 
+            'formatter': 'standard',
+        },
+    },
+    'loggers': {
+        '__main__': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True
+        }
     },
 }

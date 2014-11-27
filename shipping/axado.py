@@ -3,9 +3,23 @@
 import sys
 import re
 import csv
+import logging
+import logging.config
 from decimal import Decimal
 
-from settings import TABLE1_NAME, TABLE2_NAME, TABLES
+from settings import TABLE1_NAME, TABLE2_NAME, TABLES, LOGGING
+
+logger = logging.getLogger(__name__)
+logging.config.dictConfig(LOGGING)
+
+# create logger
+
+# 'application' code
+logger.debug('debug message')
+logger.info('info message')
+logger.warn('warn message')
+logger.error('error message')
+logger.critical('critical message')
 
 
 class Axado():
@@ -16,7 +30,7 @@ class Axado():
         self.destination = argv[2].lower()
         self.receipt = float(argv[3])
         self.weight = float(argv[4])
-        self.get_table_data()
+        self.calculate()
 
     @staticmethod
     def is_valid_city_name(city_name):
@@ -113,7 +127,7 @@ e.g., florianopolis brasilia 50 7"""
             self.icms = TABLES[self.table]['icms']
         self.subtotal += self.subtotal / ((100 - self.icms) / 100)
 
-    def get_table_data(self):
+    def calculate(self):
         self.delivery_time = "-"
         self.price = "-"
         self.subtotal = 0.0
