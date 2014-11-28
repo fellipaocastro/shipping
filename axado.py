@@ -16,7 +16,7 @@ logging.config.dictConfig(LOGGING)
 class Shipping(object):
 
     def __init__(self, table, argv):
-        logger.info('CALL %s:%s METHOD' % ('Shipping', '__init__'))
+        logger.info('CALL %s:%s INSTANCE METHOD' % ('Shipping', '__init__'))
         self.table = table
         self.origin = argv[1].lower()
         self.destination = argv[2].lower()
@@ -48,7 +48,7 @@ class Shipping(object):
             and Shipping.is_valid_number(argv[4]) else False
 
     def get_route_data(self):
-        logger.info('CALL %s:%s METHOD' % ('Shipping', 'get_route_data'))
+        logger.info('CALL %s:%s INSTANCE METHOD' % ('Shipping', 'get_route_data'))
         with open(TABLES[self.table]['routes']) as csvfile:
             reader = csv.DictReader(
                 csvfile, delimiter=TABLES[self.table]['delimiter'])
@@ -68,7 +68,7 @@ class Shipping(object):
         return False
 
     def get_price_per_kg(self):
-        logger.info('CALL %s:%s METHOD' % ('Shipping', 'get_price_per_kg'))
+        logger.info('CALL %s:%s INSTANCE METHOD' % ('Shipping', 'get_price_per_kg'))
         with open(TABLES[self.table]['price_per_kg']) as csvfile:
             reader = csv.DictReader(
                 csvfile, delimiter=TABLES[self.table]['delimiter'])
@@ -101,7 +101,7 @@ e.g., florianopolis brasilia 50 7"""
         return False
 
     def check_limit(self):
-        logger.info('CALL %s:%s METHOD' % ('Shipping', 'check_limit'))
+        logger.info('CALL %s:%s INSTANCE METHOD' % ('Shipping', 'check_limit'))
         if (self.table == TABLE2_NAME and self.limit > 0
                 and self.weight > self.limit):
             self.delivery_time = "-"
@@ -110,31 +110,31 @@ e.g., florianopolis brasilia 50 7"""
             return True
 
     def sum_insurance(self):
-        logger.info('CALL %s:%s METHOD' % ('Shipping', 'sum_insurance'))
+        logger.info('CALL %s:%s INSTANCE METHOD' % ('Shipping', 'sum_insurance'))
         self.subtotal += self.receipt * self.insurance / 100
 
     def sum_fixed_tax(self):
-        logger.info('CALL %s:%s METHOD' % ('Shipping', 'sum_fixed_tax'))
+        logger.info('CALL %s:%s INSTANCE METHOD' % ('Shipping', 'sum_fixed_tax'))
         if self.table == TABLE1_NAME:
             self.subtotal += self.fixed
 
     def sum_weight_price(self):
-        logger.info('CALL %s:%s METHOD' % ('Shipping', 'sum_weight_price'))
+        logger.info('CALL %s:%s INSTANCE METHOD' % ('Shipping', 'sum_weight_price'))
         self.subtotal += self.price_per_kg * self.weight
 
     def sum_customs(self):
-        logger.info('CALL %s:%s METHOD' % ('Shipping', 'sum_customs'))
+        logger.info('CALL %s:%s INSTANCE METHOD' % ('Shipping', 'sum_customs'))
         if self.table == TABLE2_NAME:
             self.subtotal += self.subtotal * (self.customs / 100)
 
     def sum_icms(self):
-        logger.info('CALL %s:%s METHOD' % ('Shipping', 'sum_icms'))
+        logger.info('CALL %s:%s INSTANCE METHOD' % ('Shipping', 'sum_icms'))
         if self.table == TABLE1_NAME:
             self.icms = TABLES[self.table]['icms']
         self.subtotal += self.subtotal / ((100 - self.icms) / 100)
 
     def calculate(self):
-        logger.info('CALL %s:%s METHOD' % ('Shipping', 'calculate'))
+        logger.info('CALL %s:%s INSTANCE METHOD' % ('Shipping', 'calculate'))
         self.delivery_time = "-"
         self.price = "-"
         self.subtotal = 0.0
