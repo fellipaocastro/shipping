@@ -1,5 +1,6 @@
 #!/bin/bash
 BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+LOG_FILE="/tmp/shipping_`date +%Y%m%d`.log"
 echo -e "Shipping calculator\n"
 case $1 in
     setup)
@@ -8,6 +9,10 @@ case $1 in
         ;;
     run)
         $BASE_DIR/axado.py ${@:2}
+        ;;
+    log)
+        echo -e "Following end of current log file...\n"
+        tail -F $LOG_FILE
         ;;
     test)
         echo "Running the test suit..."
@@ -25,6 +30,9 @@ case $1 in
                                                 Install dependencies"
         echo "  run <origin> <destination> <receipt> <weight>\
         Start shipping calculator"
+        echo "  log\
+                                                  Follow end of current log \
+file"
         echo "  test\
                                                  Run the test suit"
         echo "  check\
