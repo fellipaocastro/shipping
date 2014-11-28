@@ -5,7 +5,7 @@ echo -e "Shipping calculator\n"
 case $1 in
     setup)
         echo -e "Installing dependencies...\n"
-        pip install -r $BASE_DIR/requirements/local.txt
+        pip install -r $BASE_DIR/requirements/production.txt
         ;;
     run)
         $BASE_DIR/axado.py ${@:2}
