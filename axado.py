@@ -102,7 +102,8 @@ e.g., florianopolis brasilia 50 7"""
 
     def check_limit(self):
         logger.info('%s:%s' % ('Shipping', 'check_limit'))
-        if self.table == TABLE2_NAME and self.weight > self.limit:
+        if (self.table == TABLE2_NAME and self.limit > 0
+                and self.weight > self.limit):
             self.delivery_time = "-"
             return False
         else:
