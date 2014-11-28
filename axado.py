@@ -151,6 +151,8 @@ e.g., florianopolis brasilia 50 7"""
         print "%s:%s, %s" % (self.table, self.delivery_time, self.price)
 
 if __name__ == '__main__':
+    logger.info('--------------------------[BEGIN]--------------------------')
+    logger.info('')
     try:
         if Shipping.check_arguments(sys.argv):
             for table in sorted(TABLES):
@@ -158,3 +160,5 @@ if __name__ == '__main__':
     except Exception as e:
         logger.error('Exception: %s' % e, exc_info=True)
         print "Oops, something went wrong."
+    logger.info('')
+    logger.info('---------------------------[END]---------------------------')
