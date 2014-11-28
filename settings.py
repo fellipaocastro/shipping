@@ -3,8 +3,9 @@
 import os
 from datetime import date
 
+from unipath import Path
 
-BASE_DIR = os.path.dirname(__file__)
+BASE_DIR = Path(__file__).parent
 
 TABLE1_NAME = 'tabela'
 TABLE2_NAME = 'tabela2'
