@@ -2,7 +2,7 @@
 # coding: utf-8
 import unittest
 
-from shipping import Shipping
+from axado import Shipping
 
 
 class ShippingStaticTestCase(unittest.TestCase):
