@@ -6,19 +6,10 @@ import logging
 import logging.config
 from decimal import Decimal
 
-from axado.settings import TABLE1_NAME, TABLE2_NAME, TABLES, LOGGING
+from settings import TABLE1_NAME, TABLE2_NAME, TABLES, LOGGING
 
 logger = logging.getLogger(__name__)
 logging.config.dictConfig(LOGGING)
-
-# create logger
-
-# 'application' code
-logger.debug('This is a debug message')
-logger.info('This is a info message')
-logger.warn('This is a warn message')
-logger.error('This is a error message')
-logger.critical('This is a critical message')
 
 
 class Shipping():

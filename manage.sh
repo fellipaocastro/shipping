@@ -1,5 +1,5 @@
 #!/bin/bash
-BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo -e "Shipping calculator\n"
 case $1 in
     setup)
@@ -7,11 +7,11 @@ case $1 in
         pip install -r $BASE_DIR/requirements/local.txt
         ;;
     run)
-        $BASE_DIR/axado/axado.py ${@:2}
+        $BASE_DIR/axado.py ${@:2}
         ;;
     test)
         echo "Running the test suit..."
-        nosetests shipping.tests
+        nosetests tests
         ;;
     check)
         echo -e "Running source code checker...\n"

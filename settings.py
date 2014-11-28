@@ -4,7 +4,7 @@ import os
 from datetime import date
 
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(__file__)
 
 TABLE1_NAME = 'tabela'
 TABLE2_NAME = 'tabela2'

@@ -4,8 +4,8 @@ import sys
 import logging
 import logging.config
 
-from axado.settings import TABLES, LOGGING
-from shipping.shipping import Shipping
+from settings import TABLES, LOGGING
+from shipping import Shipping
 
 logger = logging.getLogger(__name__)
 logging.config.dictConfig(LOGGING)
