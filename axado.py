@@ -30,29 +30,6 @@ class Shipping(object):
         logger.debug('self.receipt: %s' % self.receipt)
         logger.debug('self.weight: %s' % self.weight)
 
-    @staticmethod
-    def is_valid_city_name(city_name):
-        logger.info('CALL %s:%s' % ('Shipping', 'is_valid_city_name'))
-        return re.match("^[a-zA-Z]+$", city_name) is not None
-
-    @staticmethod
-    def is_valid_number(number):
-        logger.info('CALL %s:%s' % ('Shipping', 'is_valid_number'))
-        return re.match("^\d+\.?\d*$", number) is not None
-
-    @staticmethod
-    def check_arguments_lengths(argv):
-        logger.info('CALL %s:%s' % ('Shipping', 'check_arguments_lengths'))
-        return True if len(argv) == 5 else False
-
-    @classmethod
-    def check_arguments_types(cls, argv):
-        logger.info('CALL %s:%s' % ('Shipping', 'check_arguments_types'))
-        return True if cls.is_valid_city_name(argv[1])\
-            and cls.is_valid_city_name(argv[2])\
-            and cls.is_valid_number(argv[3])\
-            and cls.is_valid_number(argv[4]) else False
-
     @classmethod
     def check_arguments(cls, argv):
         logger.info('CALL %s:%s' % ('Shipping', 'check_arguments'))
@@ -68,6 +45,49 @@ e.g., florianopolis brasilia 50 7"""
         else:
             return True
         return False
+
+    @staticmethod
+    def check_arguments_lengths(argv):
+        logger.info('CALL %s:%s' % ('Shipping', 'check_arguments_lengths'))
+        return True if len(argv) == 5 else False
+
+    @classmethod
+    def check_arguments_types(cls, argv):
+        logger.info('CALL %s:%s' % ('Shipping', 'check_arguments_types'))
+        return True if cls.is_valid_city_name(argv[1])\
+            and cls.is_valid_city_name(argv[2])\
+            and cls.is_valid_number(argv[3])\
+            and cls.is_valid_number(argv[4]) else False
+
+    @staticmethod
+    def is_valid_city_name(city_name):
+        logger.info('CALL %s:%s' % ('Shipping', 'is_valid_city_name'))
+        return re.match("^[a-zA-Z]+$", city_name) is not None
+
+    @staticmethod
+    def is_valid_number(number):
+        logger.info('CALL %s:%s' % ('Shipping', 'is_valid_number'))
+        return re.match("^\d+\.?\d*$", number) is not None
+
+    def calculate(self):
+        logger.info('CALL %s:%s' % ('Shipping', 'calculate'))
+        self.delivery_time = "-"
+        self.price = "-"
+        self.subtotal = 0.0
+        if self.get_route_data():
+            if self.check_limit():
+                if self.get_price_per_kg():
+                    self.sum_insurance()
+                    self.sum_weight_price()
+                    self.sum_fixed_tax()
+                    self.sum_customs()
+                    self.sum_icms()
+                    self.price = float(Decimal(self.subtotal).quantize(
+                        Decimal('.01'), rounding='ROUND_UP'))
+        logger.debug('self.price: %s' % self.price)
+        Shipping.message += "%s:%s, %s\n" % (
+            self.table, self.delivery_time, self.price)
+        logger.debug('Shipping.message: %s' % Shipping.message)
 
     def get_route_data(self):
         logger.info('CALL %s:%s' % ('Shipping', 'get_route_data'))
@@ -96,6 +116,16 @@ e.g., florianopolis brasilia 50 7"""
                     return True
         return False
 
+    def check_limit(self):
+        logger.info('CALL %s:%s' % ('Shipping', 'check_limit'))
+        if (self.table == TABLE2_NAME and self.limit > 0
+                and self.weight > self.limit):
+            self.delivery_time = "-"
+            logger.debug('self.delivery_time: %s' % self.delivery_time)
+            return False
+        else:
+            return True
+
     def get_price_per_kg(self):
         logger.info('CALL %s:%s' % ('Shipping', 'get_price_per_kg'))
         with open(TABLES[self.table]['price_per_kg']) as csvfile:
@@ -115,30 +145,20 @@ e.g., florianopolis brasilia 50 7"""
                                 return True
         return False
 
-    def check_limit(self):
-        logger.info('CALL %s:%s' % ('Shipping', 'check_limit'))
-        if (self.table == TABLE2_NAME and self.limit > 0
-                and self.weight > self.limit):
-            self.delivery_time = "-"
-            logger.debug('self.delivery_time: %s' % self.delivery_time)
-            return False
-        else:
-            return True
-
     def sum_insurance(self):
         logger.info('CALL %s:%s' % ('Shipping', 'sum_insurance'))
         self.subtotal += self.receipt * self.insurance / 100
+        logger.debug('self.subtotal: %s' % self.subtotal)
+
+    def sum_weight_price(self):
+        logger.info('CALL %s:%s' % ('Shipping', 'sum_weight_price'))
+        self.subtotal += self.price_per_kg * self.weight
         logger.debug('self.subtotal: %s' % self.subtotal)
 
     def sum_fixed_tax(self):
         logger.info('CALL %s:%s' % ('Shipping', 'sum_fixed_tax'))
         if self.table == TABLE1_NAME:
             self.subtotal += self.fixed
-        logger.debug('self.subtotal: %s' % self.subtotal)
-
-    def sum_weight_price(self):
-        logger.info('CALL %s:%s' % ('Shipping', 'sum_weight_price'))
-        self.subtotal += self.price_per_kg * self.weight
         logger.debug('self.subtotal: %s' % self.subtotal)
 
     def sum_customs(self):
@@ -153,26 +173,6 @@ e.g., florianopolis brasilia 50 7"""
             self.icms = TABLES[self.table]['icms']
         self.subtotal += self.subtotal / ((100 - self.icms) / 100)
         logger.debug('self.subtotal: %s' % self.subtotal)
-
-    def calculate(self):
-        logger.info('CALL %s:%s' % ('Shipping', 'calculate'))
-        self.delivery_time = "-"
-        self.price = "-"
-        self.subtotal = 0.0
-        if self.get_route_data():
-            if self.check_limit():
-                if self.get_price_per_kg():
-                    self.sum_insurance()
-                    self.sum_weight_price()
-                    self.sum_fixed_tax()
-                    self.sum_customs()
-                    self.sum_icms()
-                    self.price = float(Decimal(self.subtotal).quantize(
-                        Decimal('.01'), rounding='ROUND_UP'))
-        logger.debug('self.price: %s' % self.price)
-        Shipping.message += "%s:%s, %s\n" % (
-            self.table, self.delivery_time, self.price)
-        logger.debug('Shipping.message: %s' % Shipping.message)
 
 
 def main():
