@@ -180,8 +180,7 @@ def main():
     try:
         if Shipping.check_arguments(sys.argv):
             for table in sorted(TABLES):
-                shipping = Shipping(table, sys.argv)
-                shipping.calculate()
+                Shipping(table, sys.argv).calculate()
         Shipping.message = Shipping.message.strip()
         logger.debug('Shipping.message: %s' % Shipping.message)
         print Shipping.message
