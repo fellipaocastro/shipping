@@ -45,13 +45,29 @@ class Shipping(object):
         logger.info('CALL %s:%s' % ('Shipping', 'check_arguments_lengths'))
         return True if len(argv) == 5 else False
 
-    @staticmethod
-    def check_arguments_types(argv):
+    @classmethod
+    def check_arguments_types(cls, argv):
         logger.info('CALL %s:%s' % ('Shipping', 'check_arguments_types'))
-        return True if Shipping.is_valid_city_name(argv[1])\
-            and Shipping.is_valid_city_name(argv[2])\
-            and Shipping.is_valid_number(argv[3])\
-            and Shipping.is_valid_number(argv[4]) else False
+        return True if cls.is_valid_city_name(argv[1])\
+            and cls.is_valid_city_name(argv[2])\
+            and cls.is_valid_number(argv[3])\
+            and cls.is_valid_number(argv[4]) else False
+
+    @classmethod
+    def check_arguments(cls, argv):
+        logger.info('CALL %s:%s' % ('Shipping', 'check_arguments'))
+        if not cls.check_arguments_lengths(argv):
+            cls.message = """It is required 4 arguments in order to \
+successfuly calculate shipping.\n
+They are: <origin> <destination> <receipt> <weight>.\n
+e.g., florianopolis brasilia 50 7"""
+        elif not cls.check_arguments_types(argv):
+            cls.message = """Whereas the first two arguments should be valid \
+city names, third and fourth ones should be valid numbers.\n
+e.g., florianopolis brasilia 50 7"""
+        else:
+            return True
+        return False
 
     def get_route_data(self):
         logger.info('CALL %s:%s' % ('Shipping', 'get_route_data'))
@@ -97,22 +113,6 @@ class Shipping(object):
                                     'self.price_per_kg: %s'
                                     % self.price_per_kg)
                                 return True
-        return False
-
-    @classmethod
-    def check_arguments(cls, argv):
-        logger.info('CALL %s:%s' % ('Shipping', 'check_arguments'))
-        if not cls.check_arguments_lengths(argv):
-            cls.message = """It is required 4 arguments in order to \
-successfuly calculate shipping.\n
-They are: <origin> <destination> <receipt> <weight>.\n
-e.g., florianopolis brasilia 50 7"""
-        elif not cls.check_arguments_types(argv):
-            cls.message = """Whereas the first two arguments should be valid \
-city names, third and fourth ones should be valid numbers.\n
-e.g., florianopolis brasilia 50 7"""
-        else:
-            return True
         return False
 
     def check_limit(self):
@@ -172,11 +172,13 @@ e.g., florianopolis brasilia 50 7"""
         logger.debug('self.price: %s' % self.price)
         Shipping.message += "%s:%s, %s\n" % (
             self.table, self.delivery_time, self.price)
+        logger.debug('Shipping.message: %s' % Shipping.message)
 
 
 def main():
     logger.info('CALL %s' % 'main')
     logger.debug('sys.argv: %s' % sys.argv)
+    logger.debug('Shipping.message: %s' % Shipping.message)
     try:
         if Shipping.check_arguments(sys.argv):
             for table in sorted(TABLES):
