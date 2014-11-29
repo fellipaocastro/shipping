@@ -1,6 +1,5 @@
 # coding: utf-8
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
+# Build paths inside the project like this: Path(BASE_DIR, ...)
 from datetime import date
 
 from unipath import Path
@@ -11,15 +10,14 @@ TABLE1_NAME = 'tabela'
 TABLE2_NAME = 'tabela2'
 TABLES = {
     TABLE1_NAME: {
-        'routes': os.path.join(BASE_DIR, 'static', TABLE1_NAME, 'rotas.csv'),
-        'price_per_kg': os.path.join(
-            BASE_DIR, 'static', 'tabela', 'preco_por_kg.csv'),
+        'routes': Path(BASE_DIR, 'static', TABLE1_NAME, 'rotas.csv'),
+        'price_per_kg': Path(BASE_DIR, 'static', 'tabela', 'preco_por_kg.csv'),
         'delimiter': ',',
         'icms': 6.0,
     },
     TABLE2_NAME: {
-        'routes': os.path.join(BASE_DIR, 'static', TABLE2_NAME, 'rotas.tsv'),
-        'price_per_kg': os.path.join(
+        'routes': Path(BASE_DIR, 'static', TABLE2_NAME, 'rotas.tsv'),
+        'price_per_kg': Path(
             BASE_DIR, 'static', 'tabela2', 'preco_por_kg.tsv'),
         'delimiter': '\t',
     },
