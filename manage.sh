@@ -1,6 +1,6 @@
 #!/bin/bash
 BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-LOG_FILE="/tmp/shipping_`date +%Y%m%d`.log"
+LOG_FILE="/tmp/shipping_`date +%Y-%m-%d`.log"
 echo -e "Shipping calculator\n"
 case $1 in
     setup)

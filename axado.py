@@ -15,6 +15,8 @@ logging.config.dictConfig(LOGGING)
 
 class Shipping(object):
 
+    message = ''
+
     def __init__(self, table, argv):
         logger.info('CALL %s:%s' % ('Shipping', '__init__'))
         self.table = table
@@ -22,7 +24,11 @@ class Shipping(object):
         self.destination = argv[2].lower()
         self.receipt = float(argv[3])
         self.weight = float(argv[4])
-        self.calculate()
+        logger.debug('self.table: %s' % self.table)
+        logger.debug('self.origin: %s' % self.origin)
+        logger.debug('self.destination: %s' % self.destination)
+        logger.debug('self.receipt: %s' % self.receipt)
+        logger.debug('self.weight: %s' % self.weight)
 
     @staticmethod
     def is_valid_city_name(city_name):
@@ -35,13 +41,13 @@ class Shipping(object):
         return re.match("^\d+\.?\d*$", number) is not None
 
     @staticmethod
-    def check_arguments_length(argv):
-        logger.info('CALL %s:%s' % ('Shipping', 'check_arguments_length'))
+    def check_arguments_lengths(argv):
+        logger.info('CALL %s:%s' % ('Shipping', 'check_arguments_lengths'))
         return True if len(argv) == 5 else False
 
     @staticmethod
-    def check_arguments_type(argv):
-        logger.info('CALL %s:%s' % ('Shipping', 'check_arguments_type'))
+    def check_arguments_types(argv):
+        logger.info('CALL %s:%s' % ('Shipping', 'check_arguments_types'))
         return True if Shipping.is_valid_city_name(argv[1])\
             and Shipping.is_valid_city_name(argv[2])\
             and Shipping.is_valid_number(argv[3])\
@@ -56,14 +62,21 @@ class Shipping(object):
                 if (row['origem'] == self.origin and row['destino'] ==
                         self.destination):
                     self.delivery_time = int(row['prazo'])
+                    logger.debug('self.delivery_time: %s' % self.delivery_time)
                     self.insurance = float(row['seguro'])
+                    logger.debug('self.insurance: %s' % self.insurance)
                     self.kg = row['kg']
+                    logger.debug('self.kg: %s' % self.kg)
                     if self.table == TABLE1_NAME:
                         self.fixed = float(row['fixa'])
+                        logger.debug('self.fixed: %s' % self.fixed)
                     elif self.table == TABLE2_NAME:
                         self.limit = float(row['limite'])
+                        logger.debug('self.limit: %s' % self.limit)
                         self.icms = float(row['icms'])
+                        logger.debug('self.icms: %s' % self.icms)
                         self.customs = float(row['alfandega'])
+                        logger.debug('self.customs: %s' % self.customs)
                     return True
         return False
 
@@ -73,28 +86,30 @@ class Shipping(object):
             reader = csv.DictReader(
                 csvfile, delimiter=TABLES[self.table]['delimiter'])
             for row in reader:
-                if (row['nome'] == self.kg and row['final'] != '' and (
-                        float(row['inicial']) <= self.weight <
-                        float(row['final']))):
-                    self.price_per_kg = float(row['preco'])
-                    return True
-                elif (row['nome'] == self.kg and row['final'] == '' and (
-                        float(row['inicial']) <= self.weight)):
-                    self.price_per_kg = float(row['preco'])
-                    return True
+                if row['nome'] == self.kg\
+                    and float(row['inicial']) <= self.weight\
+                    and (
+                        row['final'] != ''
+                        and self.weight < float(row['final'])
+                        or row['final'] == ''):
+                                self.price_per_kg = float(row['preco'])
+                                logger.debug(
+                                    'self.price_per_kg: %s'
+                                    % self.price_per_kg)
+                                return True
         return False
 
-    @staticmethod
-    def check_arguments(argv):
+    @classmethod
+    def check_arguments(cls, argv):
         logger.info('CALL %s:%s' % ('Shipping', 'check_arguments'))
-        if not Shipping.check_arguments_length(argv):
-            print """It is required 4 arguments in order to successfuly \
-calculate shipping.\n
+        if not cls.check_arguments_lengths(argv):
+            cls.message = """It is required 4 arguments in order to \
+successfuly calculate shipping.\n
 They are: <origin> <destination> <receipt> <weight>.\n
 e.g., florianopolis brasilia 50 7"""
-        elif not Shipping.check_arguments_type(argv):
-            print """Whereas the first two arguments should be valid city \
-names, third and fourth ones should be valid numbers.\n
+        elif not cls.check_arguments_types(argv):
+            cls.message = """Whereas the first two arguments should be valid \
+city names, third and fourth ones should be valid numbers.\n
 e.g., florianopolis brasilia 50 7"""
         else:
             return True
@@ -105,6 +120,7 @@ e.g., florianopolis brasilia 50 7"""
         if (self.table == TABLE2_NAME and self.limit > 0
                 and self.weight > self.limit):
             self.delivery_time = "-"
+            logger.debug('self.delivery_time: %s' % self.delivery_time)
             return False
         else:
             return True
@@ -112,26 +128,31 @@ e.g., florianopolis brasilia 50 7"""
     def sum_insurance(self):
         logger.info('CALL %s:%s' % ('Shipping', 'sum_insurance'))
         self.subtotal += self.receipt * self.insurance / 100
+        logger.debug('self.subtotal: %s' % self.subtotal)
 
     def sum_fixed_tax(self):
         logger.info('CALL %s:%s' % ('Shipping', 'sum_fixed_tax'))
         if self.table == TABLE1_NAME:
             self.subtotal += self.fixed
+        logger.debug('self.subtotal: %s' % self.subtotal)
 
     def sum_weight_price(self):
         logger.info('CALL %s:%s' % ('Shipping', 'sum_weight_price'))
         self.subtotal += self.price_per_kg * self.weight
+        logger.debug('self.subtotal: %s' % self.subtotal)
 
     def sum_customs(self):
         logger.info('CALL %s:%s' % ('Shipping', 'sum_customs'))
         if self.table == TABLE2_NAME:
             self.subtotal += self.subtotal * (self.customs / 100)
+        logger.debug('self.subtotal: %s' % self.subtotal)
 
     def sum_icms(self):
         logger.info('CALL %s:%s' % ('Shipping', 'sum_icms'))
         if self.table == TABLE1_NAME:
             self.icms = TABLES[self.table]['icms']
         self.subtotal += self.subtotal / ((100 - self.icms) / 100)
+        logger.debug('self.subtotal: %s' % self.subtotal)
 
     def calculate(self):
         logger.info('CALL %s:%s' % ('Shipping', 'calculate'))
@@ -148,15 +169,22 @@ e.g., florianopolis brasilia 50 7"""
                     self.sum_icms()
                     self.price = float(Decimal(self.subtotal).quantize(
                         Decimal('.01'), rounding='ROUND_UP'))
-        print "%s:%s, %s" % (self.table, self.delivery_time, self.price)
+        logger.debug('self.price: %s' % self.price)
+        Shipping.message += "%s:%s, %s\n" % (
+            self.table, self.delivery_time, self.price)
 
 
 def main():
     logger.info('CALL %s' % 'main')
+    logger.debug('sys.argv: %s' % sys.argv)
     try:
         if Shipping.check_arguments(sys.argv):
             for table in sorted(TABLES):
-                Shipping(table, sys.argv)
+                shipping = Shipping(table, sys.argv)
+                shipping.calculate()
+        Shipping.message = Shipping.message.strip()
+        logger.debug('Shipping.message: %s' % Shipping.message)
+        print Shipping.message
     except Exception as e:
         logger.error('Exception: %s' % e, exc_info=True)
         print "Oops, something went wrong."

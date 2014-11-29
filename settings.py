@@ -30,8 +30,8 @@ LOGGING = {
     'formatters': {
         'colored': {
             '()': 'colorlog.ColoredFormatter',
-            'format': "%(purple)s%(asctime)s %(log_color)s%(levelname)\
--8s%(reset)s %(bg_blue)s[%(name)s]%(reset)s %(message)s",
+            'format': "%(purple)s%(asctime)s %(log_color)s%(levelname)s\
+%(reset)s %(bg_blue)s[%(name)s]%(reset)-5s %(message)s",
             'datefmt': '%Y-%m-%d %H:%M:%S',
         }
     },
@@ -40,17 +40,12 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': '/tmp/shipping_%s.log' % date.today().strftime(
-                '%Y%m%d'),
+                '%Y-%m-%d'),
             'formatter': 'colored',
         },
     },
     'loggers': {
         '__main__': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True
-        },
-        'shipping': {
             'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True
