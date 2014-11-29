@@ -177,14 +177,14 @@ e.g., florianopolis brasilia 50 7"""
 
 def main():
     logger.info('CALL %s' % 'main')
-    logger.debug('sys.argv: %s' % sys.argv)
+    logger.info('sys.argv: %s' % sys.argv)
     logger.debug('Shipping.message: %s' % Shipping.message)
     try:
         if Shipping.check_arguments(sys.argv):
             for table in sorted(TABLES):
                 Shipping(table, sys.argv).calculate()
         Shipping.message = Shipping.message.strip()
-        logger.debug('Shipping.message: %s' % Shipping.message)
+        logger.info('Shipping.message: %s' % Shipping.message)
         print Shipping.message
     except Exception as e:
         logger.error('Exception: %s' % e, exc_info=True)
