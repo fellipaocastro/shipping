@@ -1,7 +1,8 @@
 Shipping
 ========
 
-Shipping calculator.
+This is a shipping calculator that estimates the time and cost of delivery
+based on given route, receipt value and item's weight.
 
 Requirements
 ------------
@@ -14,25 +15,34 @@ Setup
 
 .. code-block:: bash
 
-    $ shipping/manage.sh setup
+    $ ./manage.sh setup
 
 Usage
 -----
 
 .. code-block:: bash
 
-    $ axado/manage.sh run <origin> <destination> <receipt> <weight>
+    $ ./manage.sh run <origin> <destination> <receipt> <weight>
+
+Log
+---
+
+    /tmp/shipping_YYYY-MM-DD.log (e.g., /tmp/shipping_2014-11-29.log)
+
+.. code-block:: bash
+
+    $ ./manage.sh log
 
 Test
 ----
 
 .. code-block:: bash
 
-    $ shipping/manage.sh test
+    $ ./manage.sh test
 
 Source code check
 -----------------
 
 .. code-block:: bash
 
-    $ shipping/manage.sh check
+    $ ./manage.sh check
