@@ -35,7 +35,7 @@ class ShippingStaticMethodsTestCase(unittest.TestCase):
 
     def test_is_valid_city_name_2(self):
         """
-        Shipping.is_valid_city_name() should return False with an invalid city
+        Shipping.is_valid_city_name() should return False with a not valid city
         name
         """
         self.assertFalse(Shipping.is_valid_city_name('florianopolis50'))
@@ -48,7 +48,7 @@ class ShippingStaticMethodsTestCase(unittest.TestCase):
 
     def test_is_valid_number_2(self):
         """
-        Shipping.is_valid_number() should return False with an invalid number
+        Shipping.is_valid_number() should return False with a not valid number
         """
         self.assertFalse(Shipping.is_valid_number('florianopolis50'))
 
@@ -78,64 +78,64 @@ e.g., florianopolis brasilia 50 7"""
 
     def test_check_arguments_types_1(self):
         """
-        Shipping.check_arguments_types() should return True if 2nd argument is
-        a valid city name
+        Shipping.check_arguments_types() should return True if second argument
+        is a valid city name
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', ]
         self.assertTrue(Shipping.check_arguments_types(argv))
 
     def test_check_arguments_types_2(self):
         """
-        Shipping.check_arguments_types() should return False if 2nd argument
-        is an invalid city name
+        Shipping.check_arguments_types() should return False if second argument
+        is not a valid city name
         """
         argv = ['axado.py', '1', 'brasilia', '50', '7', ]
         self.assertFalse(Shipping.check_arguments_types(argv))
 
     def test_check_arguments_types_3(self):
         """
-        Shipping.check_arguments_types() should return True if 3rd argument is
-        a valid city name
+        Shipping.check_arguments_types() should return True if third argument
+        is a valid city name
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', ]
         self.assertTrue(Shipping.check_arguments_types(argv))
 
     def test_check_arguments_types_4(self):
         """
-        Shipping.check_arguments_types() should return False if 3rd argument is
-        an invalid city name
+        Shipping.check_arguments_types() should return False if third argument
+        is not a valid city name
         """
         argv = ['axado.py', 'florianopolis', '1', '50', '7', ]
         self.assertFalse(Shipping.check_arguments_types(argv))
 
     def test_check_arguments_types_5(self):
         """
-        Shipping.check_arguments_types() should return True if 4th argument is
-        a valid number
+        Shipping.check_arguments_types() should return True if fourth argument
+        is a valid number
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', ]
         self.assertTrue(Shipping.check_arguments_types(argv))
 
     def test_check_arguments_types_6(self):
         """
-        Shipping.check_arguments_types() should return False if 4th argument
-        is an invalid number
+        Shipping.check_arguments_types() should return False if fourth argument
+        is not a valid number
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', 'saopaulo', '7', ]
         self.assertFalse(Shipping.check_arguments_types(argv))
 
     def test_check_arguments_types_7(self):
         """
-        Shipping.check_arguments_types() should return True if 5th argument is
-        a valid number
+        Shipping.check_arguments_types() should return True if fifth argument
+        is a valid number
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', ]
         self.assertTrue(Shipping.check_arguments_types(argv))
 
     def test_check_arguments_types_8(self):
         """
-        Shipping.check_arguments_types() should return False if 5th argument
-        is an invalid number
+        Shipping.check_arguments_types() should return False if fifth argument
+        is not a valid number
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', 'saopaulo', ]
         self.assertFalse(Shipping.check_arguments_types(argv))
