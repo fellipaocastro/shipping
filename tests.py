@@ -271,11 +271,33 @@ class ShippingTestCase(unittest.TestCase):
                 and self.weight < float(row['final']))
             or row['final'] == '')
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '34']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.kg = 'central2'
         get_price_per_kg = shipping.get_price_per_kg()
         self.assertFalse(get_price_per_kg)
+
+    def test_sum_insurance_1(self):
+        """
+        Shipping.sum_insurance should properly set self.subtotal
+        """
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE1_NAME, argv)
+        shipping.subtotal = 0.0
+        shipping.insurance = 3.0
+        shipping.sum_insurance()
+        self.assertEqual(shipping.subtotal, 1.5)
+
+    def test_sum_weight_price(self):
+        """
+        Shipping.sum_insurance should properly set self.subtotal
+        """
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE1_NAME, argv)
+        shipping.subtotal = 1.5
+        shipping.price_per_kg = 7.0
+        shipping.sum_weight_price()
+        self.assertEqual(shipping.subtotal, 43.5)
 
 
 class ShippingTable1TestCase(unittest.TestCase):
