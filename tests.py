@@ -191,8 +191,6 @@ class ShippingTestCase(unittest.TestCase):
         shipping = Shipping(TABLE1_NAME, argv)
         self.assertEqual(shipping.weight, 6.0)
 
-
-class ShippingTable1TestCase(unittest.TestCase):
     def test_calculate_1(self):
         """
         Shipping.calculate() should properly set Shipping.message
@@ -204,6 +202,83 @@ class ShippingTable1TestCase(unittest.TestCase):
         shipping.calculate()
         self.assertEqual(Shipping.message, message)
 
+    def test_get_price_per_kg_1(self):
+        """
+        Shipping.get_price_per_kg should properly set self.price_per_kg if any
+        row matches the following rule:
+        row['nome'] == self.kg
+        and float(row['inicial']) <= self.weight
+        and row['final'] != ''
+        and self.weight < float(row['final'])
+        """
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE1_NAME, argv)
+        shipping.kg = 'central'
+        shipping.get_price_per_kg()
+        self.assertEqual(shipping.price_per_kg, 7.0)
+
+    def test_get_price_per_kg_2(self):
+        """
+        Shipping.get_price_per_kg should return True if any row matches the
+        following rule:
+        row['nome'] == self.kg
+        and float(row['inicial']) <= self.weight
+        and row['final'] != ''
+        and self.weight < float(row['final'])
+        """
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE1_NAME, argv)
+        shipping.kg = 'central'
+        get_price_per_kg = shipping.get_price_per_kg()
+        self.assertTrue(get_price_per_kg)
+
+    def test_get_price_per_kg_3(self):
+        """
+        Shipping.get_price_per_kg should properly set self.price_per_kg if any
+        row matches the following rule:
+        row['nome'] == self.kg
+        and float(row['inicial']) <= self.weight
+        and row['final'] == ''
+        """
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '34']
+        shipping = Shipping(TABLE1_NAME, argv)
+        shipping.kg = 'central'
+        shipping.get_price_per_kg()
+        self.assertEqual(shipping.price_per_kg, 10.0)
+
+    def test_get_price_per_kg_4(self):
+        """
+        Shipping.get_price_per_kg should return True if any row matches the
+        following rule:
+        row['nome'] == self.kg
+        and float(row['inicial']) <= self.weight
+        and row['final'] == ''
+        """
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '34']
+        shipping = Shipping(TABLE1_NAME, argv)
+        shipping.kg = 'central'
+        get_price_per_kg = shipping.get_price_per_kg()
+        self.assertTrue(get_price_per_kg)
+
+    def test_get_price_per_kg_5(self):
+        """
+        Shipping.get_price_per_kg should return False if no row matches the
+        following rule:
+        row['nome'] == self.kg
+        and float(row['inicial']) <= self.weight
+        and (
+            (row['final'] != ''
+                and self.weight < float(row['final']))
+            or row['final'] == '')
+        """
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '34']
+        shipping = Shipping(TABLE1_NAME, argv)
+        shipping.kg = 'central2'
+        get_price_per_kg = shipping.get_price_per_kg()
+        self.assertFalse(get_price_per_kg)
+
+
+class ShippingTable1TestCase(unittest.TestCase):
     def test_get_route_data_1(self):
         """
         Shipping.get_route_data shoud properly set self.delivery_time
@@ -242,7 +317,9 @@ class ShippingTable1TestCase(unittest.TestCase):
 
     def test_get_route_data_5(self):
         """
-        Shipping.get_route_data shoud return True if route data is found
+        Shipping.get_route_data shoud return True if any row matches the
+        following rule:
+        row['origem'] == self.origin and row['destino'] == self.destination
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
@@ -251,7 +328,10 @@ class ShippingTable1TestCase(unittest.TestCase):
 
     def test_get_route_data_6(self):
         """
-        Shipping.get_route_data shoud return False if route data is not found
+        Shipping.get_route_data should return False if no row matches the
+        following rule:
+        row['origem'] == self.origin and row['destino'] ==
+        self.destination
         """
         argv = ['axado.py', 'manaus', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
@@ -262,24 +342,13 @@ class ShippingTable1TestCase(unittest.TestCase):
         """
         Shipping.check_limit should return True
         """
-        argv = ['axado.py', 'manaus', 'florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         check_limit = shipping.check_limit()
         self.assertTrue(check_limit)
 
 
 class ShippingTable2TestCase(unittest.TestCase):
-    def test_calculate_1(self):
-        """
-        Shipping.calculate() should properly set Shipping.message
-        """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
-        shipping = Shipping(TABLE2_NAME, argv)
-        message = "\n%s:%s, %s" % (TABLE2_NAME, 4, 138.92)
-        Shipping.message = ''
-        shipping.calculate()
-        self.assertEqual(Shipping.message, message)
-
     def test_get_route_data_1(self):
         """
         Shipping.get_route_data shoud properly set self.delivery_time
@@ -336,7 +405,9 @@ class ShippingTable2TestCase(unittest.TestCase):
 
     def test_get_route_data_7(self):
         """
-        Shipping.get_route_data shoud return True if route data is found
+        Shipping.get_route_data shoud return True if any row matches the
+        following rule:
+        row['origem'] == self.origin and row['destino'] == self.destination
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
@@ -345,7 +416,10 @@ class ShippingTable2TestCase(unittest.TestCase):
 
     def test_get_route_data_8(self):
         """
-        Shipping.get_route_data shoud return False if route data is not found
+        Shipping.get_route_data shoud return False if no row matches the
+        following rule:
+        row['origem'] == self.origin and row['destino'] ==
+        self.destination
         """
         argv = ['axado.py', 'manaus', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
@@ -356,7 +430,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         Shipping.check_limit should return True with self.limit <= 0
         """
-        argv = ['axado.py', 'manaus', 'florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.limit = 0
         check_limit = shipping.check_limit()
@@ -367,7 +441,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         Shipping.check_limit should return True with self.limit > 0 and
         self.weight <= self.limit
         """
-        argv = ['axado.py', 'manaus', 'florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.limit = 100.00
         check_limit = shipping.check_limit()
@@ -377,7 +451,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         Shipping.check_limit should properly set self.delivery_time
         """
-        argv = ['axado.py', 'manaus', 'florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.limit = 5.00
         shipping.check_limit()
@@ -388,7 +462,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         Shipping.check_limit should return True with self.limit > 0 and
         self.weight > self.limit
         """
-        argv = ['axado.py', 'manaus', 'florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.limit = 5.00
         check_limit = shipping.check_limit()

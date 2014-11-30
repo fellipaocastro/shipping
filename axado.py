@@ -136,8 +136,8 @@ e.g., florianopolis brasilia 50 7"""
                 if row['nome'] == self.kg\
                     and float(row['inicial']) <= self.weight\
                     and (
-                        row['final'] != ''
-                        and self.weight < float(row['final'])
+                        (row['final'] != ''
+                            and self.weight < float(row['final']))
                         or row['final'] == ''):
                                 self.price_per_kg = float(row['preco'])
                                 logger.debug(
