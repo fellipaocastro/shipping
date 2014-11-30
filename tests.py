@@ -62,7 +62,7 @@ class ShippingClassMethodsTestCase(unittest.TestCase):
         Shipping.check_arguments should return True with right number and types
         of arguments
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         check_arguments = Shipping.check_arguments(argv)
         self.assertTrue(check_arguments)
 
@@ -71,7 +71,7 @@ class ShippingClassMethodsTestCase(unittest.TestCase):
         Shipping.check_arguments should set proper Shipping.message with a
         wrong number of paremeters
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6', '7']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6', '7']
         message = """It is required 4 arguments in order to \
 successfuly calculate shipping.\n
 They are: <origin> <destination> <receipt> <weight>.\n
@@ -84,7 +84,7 @@ e.g., florianopolis brasilia 50 7"""
         Shipping.check_arguments should return False with a wrong number of
         paremeters
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6', '7']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6', '7']
         check_arguments = Shipping.check_arguments(argv)
         self.assertFalse(check_arguments)
 
@@ -93,7 +93,7 @@ e.g., florianopolis brasilia 50 7"""
         Shipping.check_arguments should set proper Shipping.message with wrong
         types of arguments
         """
-        argv = ['axado.py', '50', 'Florianopolis', 'SaoPaulo', '6']
+        argv = ['axado.py', '50', 'florianopolis', 'saopaulo', '6']
         message = """Whereas the first two arguments should be valid \
 city names, third and fourth ones should be valid numbers.\n
 e.g., florianopolis brasilia 50 7"""
@@ -105,7 +105,7 @@ e.g., florianopolis brasilia 50 7"""
         Shipping.check_arguments should return False with wrong types of
         arguments
         """
-        argv = ['axado.py', '50', 'Florianopolis', 'SaoPaulo', '6']
+        argv = ['axado.py', '50', 'florianopolis', 'saopaulo', '6']
         check_arguments = Shipping.check_arguments(argv)
         self.assertFalse(check_arguments)
 
@@ -155,7 +155,7 @@ class ShippingTestCase(unittest.TestCase):
         """
         Shipping.__init__() should properly initialize self.table
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         self.assertEqual(shipping.table, TABLE1_NAME)
 
@@ -163,7 +163,7 @@ class ShippingTestCase(unittest.TestCase):
         """
         Shipping.__init__() should properly initialize self.origin
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         self.assertEqual(shipping.origin, 'saopaulo')
 
@@ -171,7 +171,7 @@ class ShippingTestCase(unittest.TestCase):
         """
         Shipping.__init__() should properly initialize self.destination
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         self.assertEqual(shipping.destination, 'florianopolis')
 
@@ -179,7 +179,7 @@ class ShippingTestCase(unittest.TestCase):
         """
         Shipping.__init__() should properly initialize self.receipt
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         self.assertEqual(shipping.receipt, 50.0)
 
@@ -187,7 +187,7 @@ class ShippingTestCase(unittest.TestCase):
         """
         Shipping.__init__() should properly initialize self.weight
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         self.assertEqual(shipping.weight, 6.0)
 
@@ -197,7 +197,7 @@ class ShippingTable1TestCase(unittest.TestCase):
         """
         Shipping.calculate() should properly set Shipping.message
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         message = "\n%s:%s, %s" % (TABLE1_NAME, 1, 106.29)
         Shipping.message = ''
@@ -208,7 +208,7 @@ class ShippingTable1TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.delivery_time
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.delivery_time, 1)
@@ -217,7 +217,7 @@ class ShippingTable1TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.insurance
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.insurance, 3.0)
@@ -226,7 +226,7 @@ class ShippingTable1TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.kg
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.kg, 'central')
@@ -235,10 +235,28 @@ class ShippingTable1TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.fixed
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.fixed, 8.0)
+
+    def test_get_route_data_5(self):
+        """
+        Shipping.get_route_data shoud return True if route data is found
+        """
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE2_NAME, argv)
+        get_route_data = shipping.get_route_data()
+        self.assertTrue(get_route_data)
+
+    def test_get_route_data_6(self):
+        """
+        Shipping.get_route_data shoud return False if route data is not found
+        """
+        argv = ['axado.py', 'manaus', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE2_NAME, argv)
+        get_route_data = shipping.get_route_data()
+        self.assertFalse(get_route_data)
 
 
 class ShippingTable2TestCase(unittest.TestCase):
@@ -246,7 +264,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         Shipping.calculate() should properly set Shipping.message
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         message = "\n%s:%s, %s" % (TABLE2_NAME, 4, 138.92)
         Shipping.message = ''
@@ -257,7 +275,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.delivery_time
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.delivery_time, 4)
@@ -266,7 +284,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.insurance
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.insurance, 7.0)
@@ -275,7 +293,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.kg
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.kg, 'central')
@@ -284,7 +302,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.limit
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.limit, 100.00)
@@ -293,7 +311,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.icms
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.icms, 6.0)
@@ -302,10 +320,28 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.customs
         """
-        argv = ['axado.py', 'SaoPaulo', 'Florianopolis', '50', '6']
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.customs, 6.0)
+
+    def test_get_route_data_7(self):
+        """
+        Shipping.get_route_data shoud return True if route data is found
+        """
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE2_NAME, argv)
+        get_route_data = shipping.get_route_data()
+        self.assertTrue(get_route_data)
+
+    def test_get_route_data_8(self):
+        """
+        Shipping.get_route_data shoud return False if route data is not found
+        """
+        argv = ['axado.py', 'manaus', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE2_NAME, argv)
+        get_route_data = shipping.get_route_data()
+        self.assertFalse(get_route_data)
 
 
 if __name__ == '__main__':
