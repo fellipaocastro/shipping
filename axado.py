@@ -86,7 +86,7 @@ e.g., florianopolis brasilia 50 7"""
                     self.price = float(Decimal(self.subtotal).quantize(
                         Decimal('.01'), rounding='ROUND_UP'))
         logger.debug('self.price: %s' % self.price)
-        Shipping.message += "%s:%s, %s\n" % (
+        Shipping.message += "\n%s:%s, %s" % (
             self.table, self.delivery_time, self.price)
         logger.debug('Shipping.message: %s' % Shipping.message)
 
