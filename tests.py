@@ -193,7 +193,7 @@ class ShippingTestCase(unittest.TestCase):
 
     def test_calculate_1(self):
         """
-        Shipping.calculate() should properly set Shipping.message
+        Shipping.calculate should properly set Shipping.message
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
