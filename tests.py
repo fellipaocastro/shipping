@@ -193,7 +193,7 @@ class ShippingTestCase(unittest.TestCase):
 
 
 class ShippingTable1TestCase(unittest.TestCase):
-    def test_calculate(self):
+    def test_calculate_1(self):
         """
         Shipping.calculate() should properly set Shipping.message
         """
@@ -245,7 +245,7 @@ class ShippingTable1TestCase(unittest.TestCase):
         Shipping.get_route_data shoud return True if route data is found
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
-        shipping = Shipping(TABLE2_NAME, argv)
+        shipping = Shipping(TABLE1_NAME, argv)
         get_route_data = shipping.get_route_data()
         self.assertTrue(get_route_data)
 
@@ -254,13 +254,22 @@ class ShippingTable1TestCase(unittest.TestCase):
         Shipping.get_route_data shoud return False if route data is not found
         """
         argv = ['axado.py', 'manaus', 'florianopolis', '50', '6']
-        shipping = Shipping(TABLE2_NAME, argv)
+        shipping = Shipping(TABLE1_NAME, argv)
         get_route_data = shipping.get_route_data()
         self.assertFalse(get_route_data)
 
+    def test_check_limit_1(self):
+        """
+        Shipping.check_limit should return True
+        """
+        argv = ['axado.py', 'manaus', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE1_NAME, argv)
+        check_limit = shipping.check_limit()
+        self.assertTrue(check_limit)
+
 
 class ShippingTable2TestCase(unittest.TestCase):
-    def test_calculate(self):
+    def test_calculate_1(self):
         """
         Shipping.calculate() should properly set Shipping.message
         """
@@ -342,6 +351,48 @@ class ShippingTable2TestCase(unittest.TestCase):
         shipping = Shipping(TABLE2_NAME, argv)
         get_route_data = shipping.get_route_data()
         self.assertFalse(get_route_data)
+
+    def test_check_limit_1(self):
+        """
+        Shipping.check_limit should return True with self.limit <= 0
+        """
+        argv = ['axado.py', 'manaus', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE2_NAME, argv)
+        shipping.limit = 0
+        check_limit = shipping.check_limit()
+        self.assertTrue(check_limit)
+
+    def test_check_limit_2(self):
+        """
+        Shipping.check_limit should return True with self.limit > 0 and
+        self.weight <= self.limit
+        """
+        argv = ['axado.py', 'manaus', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE2_NAME, argv)
+        shipping.limit = 100.00
+        check_limit = shipping.check_limit()
+        self.assertTrue(check_limit)
+
+    def test_check_limit_3(self):
+        """
+        Shipping.check_limit should properly set self.delivery_time
+        """
+        argv = ['axado.py', 'manaus', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE2_NAME, argv)
+        shipping.limit = 5.00
+        shipping.check_limit()
+        self.assertEqual(shipping.delivery_time, "-")
+
+    def test_check_limit_4(self):
+        """
+        Shipping.check_limit should return True with self.limit > 0 and
+        self.weight > self.limit
+        """
+        argv = ['axado.py', 'manaus', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE2_NAME, argv)
+        shipping.limit = 5.00
+        check_limit = shipping.check_limit()
+        self.assertFalse(check_limit)
 
 
 if __name__ == '__main__':
