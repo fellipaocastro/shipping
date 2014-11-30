@@ -7,7 +7,7 @@ import re
 import csv
 from decimal import Decimal
 
-from settings import TABLES, LOGGING, TABLE1_NAME, TABLE2_NAME
+from settings import TABLES, TABLE1_NAME, TABLE2_NAME, LOGGING
 
 logger = logging.getLogger(__name__)
 logging.config.dictConfig(LOGGING)

@@ -3,7 +3,7 @@
 import unittest
 
 from axado import Shipping
-from settings import TABLE1_NAME, TABLE2_NAME
+from settings import TABLES, TABLE1_NAME, TABLE2_NAME
 
 
 class ShippingStaticMethodsTestCase(unittest.TestCase):
@@ -288,9 +288,9 @@ class ShippingTestCase(unittest.TestCase):
         shipping.sum_insurance()
         self.assertEqual(shipping.subtotal, 1.5)
 
-    def test_sum_weight_price(self):
+    def test_sum_weight_price_1(self):
         """
-        Shipping.sum_insurance should properly set self.subtotal
+        Shipping.sum_weight_price should properly set self.subtotal
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
@@ -298,6 +298,16 @@ class ShippingTestCase(unittest.TestCase):
         shipping.price_per_kg = 7.0
         shipping.sum_weight_price()
         self.assertEqual(shipping.subtotal, 43.5)
+
+    def test_sum_icms_1(self):
+        """
+        Shipping.sum_icms should properly set self.subtotal
+        """
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE1_NAME, argv)
+        shipping.subtotal = 51.5
+        shipping.sum_icms()
+        self.assertEqual(shipping.subtotal, 106.2872340425532)
 
 
 class ShippingTable1TestCase(unittest.TestCase):
@@ -368,6 +378,37 @@ class ShippingTable1TestCase(unittest.TestCase):
         shipping = Shipping(TABLE1_NAME, argv)
         check_limit = shipping.check_limit()
         self.assertTrue(check_limit)
+
+    def test_sum_fixed_tax_1(self):
+        """
+        Shipping.sum_fixed_tax should properly set self.subtotal
+        """
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE1_NAME, argv)
+        shipping.subtotal = 43.5
+        shipping.fixed = 8.0
+        shipping.sum_fixed_tax()
+        self.assertEqual(shipping.subtotal, 51.5)
+
+    def test_sum_customs_1(self):
+        """
+        Shipping.sum_customs should properly set self.subtotal
+        """
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE1_NAME, argv)
+        shipping.subtotal = 51.5
+        shipping.sum_customs()
+        self.assertEqual(shipping.subtotal, 51.5)
+
+    def test_sum_icms_1(self):
+        """
+        Shipping.sum_icms should properly set self.icms
+        """
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE1_NAME, argv)
+        shipping.subtotal = 51.5
+        shipping.sum_icms()
+        self.assertEqual(shipping.icms, TABLES[TABLE1_NAME]['icms'])
 
 
 class ShippingTable2TestCase(unittest.TestCase):
@@ -489,6 +530,27 @@ class ShippingTable2TestCase(unittest.TestCase):
         shipping.limit = 5.00
         check_limit = shipping.check_limit()
         self.assertFalse(check_limit)
+
+    def test_sum_fixed_tax_1(self):
+        """
+        Shipping.sum_fixed_tax should properly set self.subtotal
+        """
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE2_NAME, argv)
+        shipping.subtotal = 63.5
+        shipping.sum_fixed_tax()
+        self.assertEqual(shipping.subtotal, 63.5)
+
+    def test_sum_customs_1(self):
+        """
+        Shipping.sum_customs should properly set self.subtotal
+        """
+        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        shipping = Shipping(TABLE2_NAME, argv)
+        shipping.subtotal = 63.5
+        shipping.customs = 6.0
+        shipping.sum_customs()
+        self.assertEqual(shipping.subtotal, 67.31)
 
 
 if __name__ == '__main__':
