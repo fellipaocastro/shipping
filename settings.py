@@ -1,11 +1,9 @@
 # coding: utf-8
-# Build paths inside the project like this: Path(BASE_DIR, ...)
 from datetime import date
 
 from unipath import Path
 
 BASE_DIR = Path(__file__).parent
-
 TABLE1_NAME = 'tabela'
 TABLE2_NAME = 'tabela2'
 TABLES = {
@@ -22,7 +20,6 @@ TABLES = {
         'delimiter': '\t',
     },
 }
-
 LOGGING = {
     'version': 1,
     'formatters': {
