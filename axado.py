@@ -18,7 +18,7 @@ class Shipping(object):
     message = ''
 
     def __init__(self, table, argv):
-        logger.info('CALL %s:%s' % (type(self).__name__, '__init__'))
+        logger.info('CALL %s.%s' % (type(self).__name__, '__init__'))
         self.table = table
         self.origin = argv[1].lower()
         self.destination = argv[2].lower()
@@ -32,7 +32,7 @@ class Shipping(object):
 
     @classmethod
     def check_arguments(cls, argv):
-        logger.info('CALL %s:%s' % (cls.__name__, 'check_arguments'))
+        logger.info('CALL %s.%s' % (cls.__name__, 'check_arguments'))
         if not cls.check_arguments_lengths(argv):
             cls.message = """It is required 4 arguments in order to \
 successfuly calculate shipping.\n
@@ -48,13 +48,13 @@ e.g., florianopolis brasilia 50 7"""
 
     @staticmethod
     def check_arguments_lengths(argv):
-        logger.info('CALL %s:%s' % (
+        logger.info('CALL %s.%s' % (
             Shipping.__name__, 'check_arguments_lengths'))
         return True if len(argv) == 5 else False
 
     @classmethod
     def check_arguments_types(cls, argv):
-        logger.info('CALL %s:%s' % (cls.__name__, 'check_arguments_types'))
+        logger.info('CALL %s.%s' % (cls.__name__, 'check_arguments_types'))
         return True if cls.is_valid_city_name(argv[1])\
             and cls.is_valid_city_name(argv[2])\
             and cls.is_valid_number(argv[3])\
@@ -62,16 +62,16 @@ e.g., florianopolis brasilia 50 7"""
 
     @staticmethod
     def is_valid_city_name(city_name):
-        logger.info('CALL %s:%s' % (Shipping.__name__, 'is_valid_city_name'))
+        logger.info('CALL %s.%s' % (Shipping.__name__, 'is_valid_city_name'))
         return re.match("^[a-zA-Z]+$", city_name) is not None
 
     @staticmethod
     def is_valid_number(number):
-        logger.info('CALL %s:%s' % (Shipping.__name__, 'is_valid_number'))
+        logger.info('CALL %s.%s' % (Shipping.__name__, 'is_valid_number'))
         return re.match("^\d+\.?\d*$", number) is not None
 
     def calculate(self):
-        logger.info('CALL %s:%s' % (type(self).__name__, 'calculate'))
+        logger.info('CALL %s.%s' % (type(self).__name__, 'calculate'))
         self.delivery_time = "-"
         self.price = "-"
         self.subtotal = 0.0
@@ -91,7 +91,7 @@ e.g., florianopolis brasilia 50 7"""
         logger.debug('Shipping.message: %s' % Shipping.message)
 
     def get_route_data(self):
-        logger.info('CALL %s:%s' % (type(self).__name__, 'get_route_data'))
+        logger.info('CALL %s.%s' % (type(self).__name__, 'get_route_data'))
         with open(TABLES[self.table]['routes']) as csvfile:
             reader = csv.DictReader(
                 csvfile, delimiter=TABLES[self.table]['delimiter'])
@@ -118,7 +118,7 @@ e.g., florianopolis brasilia 50 7"""
         return False
 
     def check_limit(self):
-        logger.info('CALL %s:%s' % (type(self).__name__, 'check_limit'))
+        logger.info('CALL %s.%s' % (type(self).__name__, 'check_limit'))
         if (self.table == TABLE2_NAME and self.limit > 0
                 and self.weight > self.limit):
             self.delivery_time = "-"
@@ -128,7 +128,7 @@ e.g., florianopolis brasilia 50 7"""
             return True
 
     def get_price_per_kg(self):
-        logger.info('CALL %s:%s' % (type(self).__name__, 'get_price_per_kg'))
+        logger.info('CALL %s.%s' % (type(self).__name__, 'get_price_per_kg'))
         with open(TABLES[self.table]['price_per_kg']) as csvfile:
             reader = csv.DictReader(
                 csvfile, delimiter=TABLES[self.table]['delimiter'])
@@ -147,29 +147,29 @@ e.g., florianopolis brasilia 50 7"""
         return False
 
     def sum_insurance(self):
-        logger.info('CALL %s:%s' % (type(self).__name__, 'sum_insurance'))
+        logger.info('CALL %s.%s' % (type(self).__name__, 'sum_insurance'))
         self.subtotal += self.receipt * self.insurance / 100
         logger.debug('self.subtotal: %s' % self.subtotal)
 
     def sum_weight_price(self):
-        logger.info('CALL %s:%s' % (type(self).__name__, 'sum_weight_price'))
+        logger.info('CALL %s.%s' % (type(self).__name__, 'sum_weight_price'))
         self.subtotal += self.price_per_kg * self.weight
         logger.debug('self.subtotal: %s' % self.subtotal)
 
     def sum_fixed_tax(self):
-        logger.info('CALL %s:%s' % (type(self).__name__, 'sum_fixed_tax'))
+        logger.info('CALL %s.%s' % (type(self).__name__, 'sum_fixed_tax'))
         if self.table == TABLE1_NAME:
             self.subtotal += self.fixed
         logger.debug('self.subtotal: %s' % self.subtotal)
 
     def sum_customs(self):
-        logger.info('CALL %s:%s' % (type(self).__name__, 'sum_customs'))
+        logger.info('CALL %s.%s' % (type(self).__name__, 'sum_customs'))
         if self.table == TABLE2_NAME:
             self.subtotal += self.subtotal * (self.customs / 100)
         logger.debug('self.subtotal: %s' % self.subtotal)
 
     def sum_icms(self):
-        logger.info('CALL %s:%s' % (type(self).__name__, 'sum_icms'))
+        logger.info('CALL %s.%s' % (type(self).__name__, 'sum_icms'))
         if self.table == TABLE1_NAME:
             self.icms = TABLES[self.table]['icms']
         self.subtotal += self.subtotal / ((100 - self.icms) / 100)

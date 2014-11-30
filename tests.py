@@ -9,14 +9,14 @@ from settings import TABLES, TABLE1_NAME, TABLE2_NAME
 class ShippingStaticMethodsTestCase(unittest.TestCase):
     def test_check_arguments_lengths_1(self):
         """
-        Shipping.check_arguments_lengths() should return True with 5 arguments
+        Shipping.check_arguments_lengths should return True with 5 arguments
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', ]
         self.assertTrue(Shipping.check_arguments_lengths(argv))
 
     def test_check_arguments_lengths_2(self):
         """
-        Shipping.check_arguments_lengths() should return False with less than 5
+        Shipping.check_arguments_lengths should return False with less than 5
         arguments
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', ]
@@ -24,7 +24,7 @@ class ShippingStaticMethodsTestCase(unittest.TestCase):
 
     def test_check_arguments_lengths_3(self):
         """
-        Shipping.check_arguments_lengths() should return False with more than 5
+        Shipping.check_arguments_lengths should return False with more than 5
         arguments
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', '5', '6', ]
@@ -32,26 +32,26 @@ class ShippingStaticMethodsTestCase(unittest.TestCase):
 
     def test_is_valid_city_name_1(self):
         """
-        Shipping.is_valid_city_name() should return True with a valid city name
+        Shipping.is_valid_city_name should return True with a valid city name
         """
         self.assertTrue(Shipping.is_valid_city_name('Florianopolis'))
 
     def test_is_valid_city_name_2(self):
         """
-        Shipping.is_valid_city_name() should return False with an ivalid city
+        Shipping.is_valid_city_name should return False with an ivalid city
         name
         """
         self.assertFalse(Shipping.is_valid_city_name('florianopolis50'))
 
     def test_is_valid_number_1(self):
         """
-        Shipping.is_valid_number() should return True with a valid number
+        Shipping.is_valid_number should return True with a valid number
         """
         self.assertTrue(Shipping.is_valid_number('50.001'))
 
     def test_is_valid_number_2(self):
         """
-        Shipping.is_valid_number() should return False with an invalid number
+        Shipping.is_valid_number should return False with an invalid number
         """
         self.assertFalse(Shipping.is_valid_number('florianopolis50'))
 
@@ -111,7 +111,7 @@ e.g., florianopolis brasilia 50 7"""
 
     def test_check_arguments_types_1(self):
         """
-        Shipping.check_arguments_types() should return True with valid
+        Shipping.check_arguments_types should return True with valid
         arguments
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', ]
@@ -119,7 +119,7 @@ e.g., florianopolis brasilia 50 7"""
 
     def test_check_arguments_types_2(self):
         """
-        Shipping.check_arguments_types() should return False with second
+        Shipping.check_arguments_types should return False with second
         argument as an invalid city name
         """
         argv = ['axado.py', '1', 'brasilia', '50', '7', ]
@@ -127,7 +127,7 @@ e.g., florianopolis brasilia 50 7"""
 
     def test_check_arguments_types_3(self):
         """
-        Shipping.check_arguments_types() should return False with third
+        Shipping.check_arguments_types should return False with third
         argument as an invalid city name
         """
         argv = ['axado.py', 'florianopolis', '1', '50', '7', ]
@@ -135,7 +135,7 @@ e.g., florianopolis brasilia 50 7"""
 
     def test_check_arguments_types_4(self):
         """
-        Shipping.check_arguments_types() should return False with fourth
+        Shipping.check_arguments_types should return False with fourth
         argument as an invalid number
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', 'saopaulo', '7', ]
@@ -143,7 +143,7 @@ e.g., florianopolis brasilia 50 7"""
 
     def test_check_arguments_types_5(self):
         """
-        Shipping.check_arguments_types() should return False with fifth
+        Shipping.check_arguments_types should return False with fifth
         argument as an invalid number
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', 'saopaulo', ]
@@ -153,7 +153,7 @@ e.g., florianopolis brasilia 50 7"""
 class ShippingTestCase(unittest.TestCase):
     def test___init__1(self):
         """
-        Shipping.__init__() should properly initialize self.table
+        Shipping.__init__ should properly initialize self.table
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
@@ -161,7 +161,7 @@ class ShippingTestCase(unittest.TestCase):
 
     def test___init__2(self):
         """
-        Shipping.__init__() should properly initialize self.origin
+        Shipping.__init__ should properly initialize self.origin
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
@@ -169,7 +169,7 @@ class ShippingTestCase(unittest.TestCase):
 
     def test___init__3(self):
         """
-        Shipping.__init__() should properly initialize self.destination
+        Shipping.__init__ should properly initialize self.destination
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
@@ -177,7 +177,7 @@ class ShippingTestCase(unittest.TestCase):
 
     def test___init__4(self):
         """
-        Shipping.__init__() should properly initialize self.receipt
+        Shipping.__init__ should properly initialize self.receipt
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
@@ -185,7 +185,7 @@ class ShippingTestCase(unittest.TestCase):
 
     def test___init__5(self):
         """
-        Shipping.__init__() should properly initialize self.weight
+        Shipping.__init__ should properly initialize self.weight
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
@@ -392,7 +392,7 @@ class ShippingTable1TestCase(unittest.TestCase):
 
     def test_sum_customs_1(self):
         """
-        Shipping.sum_customs should properly set self.subtotal
+        Shipping.sum_customs should not change the value of self.subtotal
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
@@ -533,7 +533,7 @@ class ShippingTable2TestCase(unittest.TestCase):
 
     def test_sum_fixed_tax_1(self):
         """
-        Shipping.sum_fixed_tax should properly set self.subtotal
+        Shipping.sum_fixed_tax should not change the value of self.subtotal
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
