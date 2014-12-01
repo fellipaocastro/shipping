@@ -11,6 +11,7 @@ from settings import TABLES, TABLE1_NAME, TABLE2_NAME
 
 
 class ShippingStaticMethodsTestCase(unittest.TestCase):
+
     def test_check_arguments_lengths_1(self):
         """
         Shipping.check_arguments_lengths should return True with 5 arguments
@@ -61,6 +62,7 @@ class ShippingStaticMethodsTestCase(unittest.TestCase):
 
 
 class ShippingClassMethodsTestCase(unittest.TestCase):
+
     def test_check_arguments_1(self):
         """
         Shipping.check_arguments should return True with right number and types
@@ -155,6 +157,7 @@ e.g., florianopolis brasilia 50 7"""
 
 
 class ShippingTestCase(unittest.TestCase):
+
     def test___init__1(self):
         """
         Shipping.__init__ should properly initialize self.table
@@ -314,6 +317,7 @@ class ShippingTestCase(unittest.TestCase):
 
 
 class ShippingTable1TestCase(unittest.TestCase):
+
     def test_get_route_data_1(self):
         """
         Shipping.get_route_data shoud properly set self.delivery_time
@@ -414,6 +418,7 @@ class ShippingTable1TestCase(unittest.TestCase):
 
 
 class ShippingTable2TestCase(unittest.TestCase):
+
     def test_get_route_data_1(self):
         """
         Shipping.get_route_data shoud properly set self.delivery_time
@@ -555,6 +560,7 @@ class ShippingTable2TestCase(unittest.TestCase):
 
 
 class MainTestCase(unittest.TestCase):
+
     @classmethod
     def setUpClass(cls):
         cls.original_sys_argv = sys.argv
