@@ -4,6 +4,8 @@ import unittest
 import sys
 from cStringIO import StringIO
 
+from mock import patch
+
 from axado import Shipping, main
 from settings import TABLES, TABLE1_NAME, TABLE2_NAME
 
@@ -555,25 +557,20 @@ class ShippingTable2TestCase(unittest.TestCase):
 
 class MainTestCase(unittest.TestCase):
     def setUp(self):
-        self.original_stdout = sys.stdout
-        sys.stdout = self.stdout = StringIO()
-
         self.original_sys_argv = sys.argv
         sys.argv = self.sys_argv = ['axado.py', 'saopaulo', 'florianopolis',
                                     '50', '6']
 
     def tearDown(self):
-        self.stdout.close()
-        sys.stdout = self.original_stdout
         sys.argv = self.original_sys_argv
 
-    def testYourScript(self):
-        main()
-        self.assertEqual(self.stdout.getvalue(), "tabela:1, 106.29\ntabela2:4, 138.92\n")
-
-    def testYourScript2(self):
-        main()
-        self.assertEqual(self.stdout.getvalue(), "tabela:1, 106.29\ntabela2:4, 138.92\n")
+    def test_main_1(self):
+        """
+        main should properly print Shipping.message
+        """
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            main()
+            self.assertEqual(fake_out.getvalue().strip(), Shipping.message)
 
 
 if __name__ == '__main__':
