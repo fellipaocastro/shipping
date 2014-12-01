@@ -557,21 +557,21 @@ class ShippingTable2TestCase(unittest.TestCase):
 
 class MainTestCase(unittest.TestCase):
     def setUp(self):
-        self.output = StringIO()
-        self.saved_stdout = sys.stdout
-        sys.stdout = self.output
+        self.stdout = StringIO()
+        self.original_stdout = sys.stdout
+        sys.stdout = self.stdout
         self.sys_argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
-        self.saved_sys_argv = sys.argv
+        self.original_sys_argv = sys.argv
         sys.argv = self.sys_argv
 
     def tearDown(self):
-        self.output.close()
-        sys.stdout = self.saved_stdout
-        sys.argv = self.saved_sys_argv
+        self.stdout.close()
+        sys.stdout = self.original_stdout
+        sys.argv = self.original_sys_argv
 
     def testYourScript(self):
         main()
-        self.assertEqual(self.output.getvalue(), "tabela:1, 106.29\ntabela2:4, 138.92\n")
+        self.assertEqual(self.stdout.getvalue(), "tabela:1, 106.29\ntabela2:4, 138.92\n")
 
 
 if __name__ == '__main__':
