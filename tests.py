@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 import unittest
+import sys
+from StringIO import StringIO
 
-from axado import Shipping
+from axado import Shipping, main
 from settings import TABLES, TABLE1_NAME, TABLE2_NAME
 
 
@@ -551,6 +553,25 @@ class ShippingTable2TestCase(unittest.TestCase):
         shipping.customs = 6.0
         shipping.sum_customs()
         self.assertEqual(shipping.subtotal, 67.31)
+
+
+class MainTestCase(unittest.TestCase):
+    def setUp(self):
+        self.output = StringIO()
+        self.saved_stdout = sys.stdout
+        sys.stdout = self.output
+        self.sys_argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        self.saved_sys_argv = sys.argv
+        sys.argv = self.sys_argv
+
+    def tearDown(self):
+        self.output.close()
+        sys.stdout = self.saved_stdout
+        sys.argv = self.saved_sys_argv
+
+    def testYourScript(self):
+        main()
+        self.assertEqual(self.output.getvalue(), "tabela:1, 106.29\ntabela2:4, 138.92\n")
 
 
 if __name__ == '__main__':
