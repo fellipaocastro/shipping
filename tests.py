@@ -572,6 +572,14 @@ class MainTestCase(unittest.TestCase):
             main()
             self.assertEqual(fake_out.getvalue().strip(), Shipping.message)
 
+    def test_main_2(self):
+        """
+        main should properly print Shipping.message
+        """
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            main()
+            self.assertEqual(fake_out.getvalue().strip(), Shipping.message)
+
 
 if __name__ == '__main__':
     unittest.main()
