@@ -576,7 +576,7 @@ class MainTestCase(unittest.TestCase):
     def test_main_2(self):
         """
         main should properly print error message in case an Exception is
-        caught 
+        caught
         """
         with patch.dict(TABLES, {TABLE1_NAME: {'routes': ''}}, clear=True):
             with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
