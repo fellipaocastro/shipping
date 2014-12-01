@@ -20,10 +20,8 @@ class Shipping(object):
     def __init__(self, table, argv):
         logger.info('CALL %s.%s' % (type(self).__name__, '__init__'))
         self.table = table
-        self.origin = argv[1].lower()
-        self.destination = argv[2].lower()
-        self.receipt = float(argv[3])
-        self.weight = float(argv[4])
+        self.origin, self.destination = argv[1].lower(), argv[2].lower()
+        self.receipt, self.weight = float(argv[3]), float(argv[4])
         logger.debug('self.table: %s' % self.table)
         logger.debug('self.origin: %s' % self.origin)
         logger.debug('self.destination: %s' % self.destination)
@@ -72,9 +70,7 @@ e.g., florianopolis brasilia 50 7"""
 
     def calculate(self):
         logger.info('CALL %s.%s' % (type(self).__name__, 'calculate'))
-        self.delivery_time = "-"
-        self.price = "-"
-        self.subtotal = 0.0
+        self.delivery_time, self.price, self.subtotal = "-", "-", 0.0
         if self.get_route_data():
             if self.check_limit():
                 if self.get_price_per_kg():

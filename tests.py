@@ -2,7 +2,7 @@
 # coding: utf-8
 import unittest
 import sys
-from StringIO import StringIO
+from cStringIO import StringIO
 
 from axado import Shipping, main
 from settings import TABLES, TABLE1_NAME, TABLE2_NAME
@@ -387,8 +387,7 @@ class ShippingTable1TestCase(unittest.TestCase):
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
-        shipping.subtotal = 43.5
-        shipping.fixed = 8.0
+        shipping.subtotal, shipping.fixed = 43.5, 8.0
         shipping.sum_fixed_tax()
         self.assertEqual(shipping.subtotal, 51.5)
 
@@ -549,20 +548,19 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
-        shipping.subtotal = 63.5
-        shipping.customs = 6.0
+        shipping.subtotal, shipping.customs = 63.5, 6.0
         shipping.sum_customs()
         self.assertEqual(shipping.subtotal, 67.31)
 
 
 class MainTestCase(unittest.TestCase):
     def setUp(self):
-        self.stdout = StringIO()
         self.original_stdout = sys.stdout
-        sys.stdout = self.stdout
-        self.sys_argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        sys.stdout = self.stdout = StringIO()
+
         self.original_sys_argv = sys.argv
-        sys.argv = self.sys_argv
+        sys.argv = self.sys_argv = ['axado.py', 'saopaulo', 'florianopolis',
+                                    '50', '6']
 
     def tearDown(self):
         self.stdout.close()
@@ -570,6 +568,10 @@ class MainTestCase(unittest.TestCase):
         sys.argv = self.original_sys_argv
 
     def testYourScript(self):
+        main()
+        self.assertEqual(self.stdout.getvalue(), "tabela:1, 106.29\ntabela2:4, 138.92\n")
+
+    def testYourScript2(self):
         main()
         self.assertEqual(self.stdout.getvalue(), "tabela:1, 106.29\ntabela2:4, 138.92\n")
 
