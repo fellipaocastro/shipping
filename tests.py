@@ -573,15 +573,13 @@ class MainTestCase(unittest.TestCase):
             main()
             self.assertEqual(fake_sys_stdout.getvalue(), message)
 
-    def test_main_2(self):
-        """
-        main should properly print Shipping.message
-        """
-        message = "%s:%s, %s\n%s:%s, %s\n" % (
-            TABLE1_NAME, 1, 106.29, TABLE2_NAME, 4, 138.92)
-        with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
-            main()
-            self.assertEqual(fake_sys_stdout.getvalue(), message)
+    # def test_main_2(self):
+    #     """
+    #     main should properly raise Exception in case of error
+    #     """
+    #     with patch('axado.Shipping', new=Shipping('tabela3', sys.argv)):
+    #         main()
+    #         self.assertRaises(Exception, main)
 
 
 if __name__ == '__main__':

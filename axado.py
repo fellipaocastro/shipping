@@ -178,7 +178,6 @@ def main():
             for table in sorted(TABLES):
                 Shipping(table, sys.argv).calculate()
                 print Shipping.message
-        logger.info('Shipping.message: %s' % Shipping.message)
     except Exception as e:
         logger.error('Exception: %s' % e, exc_info=True)
         print "Oops, something went wrong."
