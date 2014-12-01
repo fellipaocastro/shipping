@@ -32,7 +32,7 @@ LOGGING = {
             'format': "%(purple)s%(asctime)s %(log_color)s%(levelname)s\
 %(reset)s %(bg_blue)s[%(name)s]%(reset)-5s %(message)s",
             'datefmt': '%Y-%m-%d %H:%M:%S',
-        }
+        },
     },
     'handlers': {
         'file': {
@@ -47,7 +47,7 @@ LOGGING = {
         '__main__': {
             'handlers': ['file'],
             'level': 'DEBUG',
-            'propagate': True
+            'propagate': True,
         },
     },
 }
