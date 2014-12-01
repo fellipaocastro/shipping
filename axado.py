@@ -15,8 +15,6 @@ logging.config.dictConfig(LOGGING)
 
 class Shipping(object):
 
-    message = ''
-
     def __init__(self, table, argv):
         logger.info('CALL %s.%s' % (type(self).__name__, '__init__'))
         self.table = table
@@ -82,7 +80,7 @@ e.g., florianopolis brasilia 50 7"""
                     self.price = float(Decimal(self.subtotal).quantize(
                         Decimal('.01'), rounding='ROUND_UP'))
         logger.debug('self.price: %s' % self.price)
-        Shipping.message += "\n%s:%s, %s" % (
+        Shipping.message = "%s:%s, %s" % (
             self.table, self.delivery_time, self.price)
         logger.debug('Shipping.message: %s' % Shipping.message)
 
@@ -175,14 +173,12 @@ e.g., florianopolis brasilia 50 7"""
 def main():
     logger.info('CALL %s' % 'main')
     logger.info('sys.argv: %s' % sys.argv)
-    logger.debug('Shipping.message: %s' % Shipping.message)
     try:
         if Shipping.check_arguments(sys.argv):
             for table in sorted(TABLES):
                 Shipping(table, sys.argv).calculate()
-        Shipping.message = Shipping.message.strip()
+                print Shipping.message
         logger.info('Shipping.message: %s' % Shipping.message)
-        print Shipping.message
     except Exception as e:
         logger.error('Exception: %s' % e, exc_info=True)
         print "Oops, something went wrong."

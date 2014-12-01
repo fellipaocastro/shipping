@@ -201,8 +201,7 @@ class ShippingTestCase(unittest.TestCase):
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
-        message = "\n%s:%s, %s" % (TABLE1_NAME, 1, 106.29)
-        Shipping.message = ''
+        message = "%s:%s, %s" % (TABLE1_NAME, 1, 106.29)
         shipping.calculate()
         self.assertEqual(Shipping.message, message)
 
@@ -568,17 +567,21 @@ class MainTestCase(unittest.TestCase):
         """
         main should properly print Shipping.message
         """
-        with patch('sys.stdout', new=StringIO()) as fake_out:
+        message = "%s:%s, %s\n%s:%s, %s\n" % (
+            TABLE1_NAME, 1, 106.29, TABLE2_NAME, 4, 138.92)
+        with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
             main()
-            self.assertEqual(fake_out.getvalue(), Shipping.message + '\n')
+            self.assertEqual(fake_sys_stdout.getvalue(), message)
 
     def test_main_2(self):
         """
         main should properly print Shipping.message
         """
-        with patch('sys.stdout', new=StringIO()) as fake_out:
+        message = "%s:%s, %s\n%s:%s, %s\n" % (
+            TABLE1_NAME, 1, 106.29, TABLE2_NAME, 4, 138.92)
+        with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
             main()
-            self.assertEqual(fake_out.getvalue(), Shipping.message + '\n')
+            self.assertEqual(fake_sys_stdout.getvalue(), message)
 
 
 if __name__ == '__main__':
