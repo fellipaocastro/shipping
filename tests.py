@@ -573,13 +573,16 @@ class MainTestCase(unittest.TestCase):
             main()
             self.assertEqual(fake_sys_stdout.getvalue(), message)
 
-    # def test_main_2(self):
-    #     """
-    #     main should properly raise Exception in case of error
-    #     """
-    #     with patch('axado.Shipping', new=Shipping('tabela3', sys.argv)):
-    #         main()
-    #         self.assertRaises(Exception, main)
+    def test_main_2(self):
+        """
+        main should properly print error message in case an Exception is
+        caught 
+        """
+        with patch.dict(TABLES, {TABLE1_NAME: {'routes': ''}}, clear=True):
+            with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
+                main()
+                self.assertEqual(fake_sys_stdout.getvalue(), "Oops, something \
+went wrong.\n")
 
 
 if __name__ == '__main__':
