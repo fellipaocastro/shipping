@@ -558,8 +558,8 @@ class ShippingTable2TestCase(unittest.TestCase):
 class MainTestCase(unittest.TestCase):
     def setUp(self):
         self.original_sys_argv = sys.argv
-        sys.argv = self.sys_argv = ['axado.py', 'saopaulo', 'florianopolis',
-                                    '50', '6']
+        sys.argv = ['axado.py', 'saopaulo', 'florianopolis',
+                    '50', '6']
 
     def tearDown(self):
         sys.argv = self.original_sys_argv
@@ -570,7 +570,7 @@ class MainTestCase(unittest.TestCase):
         """
         with patch('sys.stdout', new=StringIO()) as fake_out:
             main()
-            self.assertEqual(fake_out.getvalue().strip(), Shipping.message)
+            self.assertEqual(fake_out.getvalue(), Shipping.message + '\n')
 
     def test_main_2(self):
         """
@@ -578,7 +578,7 @@ class MainTestCase(unittest.TestCase):
         """
         with patch('sys.stdout', new=StringIO()) as fake_out:
             main()
-            self.assertEqual(fake_out.getvalue().strip(), Shipping.message)
+            self.assertEqual(fake_out.getvalue(), Shipping.message + '\n')
 
 
 if __name__ == '__main__':
