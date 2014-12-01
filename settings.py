@@ -4,8 +4,11 @@ from datetime import date
 from unipath import Path
 
 BASE_DIR = Path(__file__).parent
+
 TABLE1_NAME = 'tabela'
+
 TABLE2_NAME = 'tabela2'
+
 TABLES = {
     TABLE1_NAME: {
         'routes': Path(BASE_DIR, 'static', TABLE1_NAME, 'rotas.csv'),
@@ -20,6 +23,7 @@ TABLES = {
         'delimiter': '\t',
     },
 }
+
 LOGGING = {
     'version': 1,
     'formatters': {
