@@ -518,7 +518,7 @@ class MainTestCase(unittest.TestCase):
 calculate shipping.\n
 They are: <origin> <destination> <receipt> <weight>.\n
 e.g., florianopolis brasilia 50 7\n'''
-        with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
+        with patch('axado.sys.stdout', new=StringIO()) as fake_sys_stdout:
             main()
             self.assertEqual(fake_sys_stdout.getvalue(), message)
 
@@ -530,7 +530,7 @@ e.g., florianopolis brasilia 50 7\n'''
         message = '''Whereas the first two arguments should be valid city \
 names, third and fourth ones should be valid numbers.\n
 e.g., florianopolis brasilia 50 7\n'''
-        with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
+        with patch('axado.sys.stdout', new=StringIO()) as fake_sys_stdout:
             main()
             self.assertEqual(fake_sys_stdout.getvalue(), message)
 
@@ -542,7 +542,7 @@ e.g., florianopolis brasilia 50 7\n'''
         sys.argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         message = '%s:%s, %s\n%s:%s, %s\n' % (
             TABLE1_NAME, 1, 106.29, TABLE2_NAME, 4, 138.92)
-        with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
+        with patch('axado.sys.stdout', new=StringIO()) as fake_sys_stdout:
             main()
             self.assertEqual(fake_sys_stdout.getvalue(), message)
 
@@ -553,7 +553,7 @@ e.g., florianopolis brasilia 50 7\n'''
         sys.argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         message = 'Oops, something went wrong.\n'
         with patch.dict(TABLES, {TABLE1_NAME: {'routes': ''}}, clear=True):
-            with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
+            with patch('axado.sys.stdout', new=StringIO()) as fake_sys_stdout:
                 main()
                 self.assertEqual(fake_sys_stdout.getvalue(), message)
 
