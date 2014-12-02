@@ -63,62 +63,6 @@ class ShippingStaticMethodsTestCase(unittest.TestCase):
 
 class ShippingClassMethodsTestCase(unittest.TestCase):
 
-    def test_check_arguments_1(self):
-        """
-        Shipping.check_arguments should return True with right number and types
-        of arguments
-        """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
-        check_arguments = Shipping.check_arguments(argv)
-        self.assertTrue(check_arguments)
-
-    def test_check_arguments_2(self):
-        """
-        Shipping.check_arguments should print proper message with a wrong
-        number of paremeters
-        """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6', '7']
-        message = """It is required 4 arguments in order to \
-successfuly calculate shipping.\n
-They are: <origin> <destination> <receipt> <weight>.\n
-e.g., florianopolis brasilia 50 7\n"""
-        with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
-            Shipping.check_arguments(argv)
-            self.assertEqual(fake_sys_stdout.getvalue(), message)
-
-    def test_check_arguments_3(self):
-        """
-        Shipping.check_arguments should return False with a wrong number of
-        paremeters
-        """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6', '7']
-        with patch('sys.stdout', new=StringIO()):
-            check_arguments = Shipping.check_arguments(argv)
-            self.assertFalse(check_arguments)
-
-    def test_check_arguments_4(self):
-        """
-        Shipping.check_arguments should print proper message with wrong types
-        of arguments
-        """
-        argv = ['axado.py', '50', 'florianopolis', 'saopaulo', '6']
-        message = """Whereas the first two arguments should be valid \
-city names, third and fourth ones should be valid numbers.\n
-e.g., florianopolis brasilia 50 7\n"""
-        with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
-            Shipping.check_arguments(argv)
-            self.assertEqual(fake_sys_stdout.getvalue(), message)
-
-    def test_check_arguments_5(self):
-        """
-        Shipping.check_arguments should return False with wrong types of
-        arguments
-        """
-        argv = ['axado.py', '50', 'florianopolis', 'saopaulo', '6']
-        with patch('sys.stdout', new=StringIO()):
-            check_arguments = Shipping.check_arguments(argv)
-            self.assertFalse(check_arguments)
-
     def test_check_arguments_types_1(self):
         """
         Shipping.check_arguments_types should return True when arguments are
@@ -201,17 +145,6 @@ class ShippingTestCase(unittest.TestCase):
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         self.assertEqual(shipping.weight, 6.0)
-
-    def test_calculate_1(self):
-        """
-        Shipping.calculate should properly print message
-        """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
-        shipping = Shipping(TABLE1_NAME, argv)
-        message = "%s:%s, %s\n" % (TABLE1_NAME, 1, 106.29)
-        with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
-            shipping.calculate()
-            self.assertEqual(fake_sys_stdout.getvalue(), message)
 
     def test_get_price_per_kg_1(self):
         """
@@ -567,23 +500,61 @@ class ShippingTable2TestCase(unittest.TestCase):
 
 class MainTestCase(unittest.TestCase):
 
-    def setUp(self):
-        self.original_sys_argv = sys.argv
-        sys.argv = ['axado.py', 'saopaulo', 'florianopolis',
-                    '50', '6']
+    @classmethod
+    def setUp(cls):
+        cls.original_sys_argv = sys.argv
 
-    def tearDown(self):
-        sys.argv = self.original_sys_argv
+    @classmethod
+    def tearDown(cls):
+        sys.argv = cls.original_sys_argv
 
     def test_main_1(self):
         """
+        main should print proper message with a wrong number of paremeters
+        """
+        sys.argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6', '7']
+        message = """It is required 4 arguments in order to \
+successfuly calculate shipping.\n
+They are: <origin> <destination> <receipt> <weight>.\n
+e.g., florianopolis brasilia 50 7\n"""
+        with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
+            main()
+            self.assertEqual(fake_sys_stdout.getvalue(), message)
+
+    def test_main_2(self):
+        """
+        main should print proper message with wrong types of arguments
+        """
+        sys.argv = ['axado.py', '50', 'florianopolis', 'saopaulo', '6']
+        message = """Whereas the first two arguments should be valid \
+city names, third and fourth ones should be valid numbers.\n
+e.g., florianopolis brasilia 50 7\n"""
+        with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
+            main()
+            self.assertEqual(fake_sys_stdout.getvalue(), message)
+
+    def test_main_3(self):
+        """
+        main should properly print the result in case there were no issues
+        regarding the given arguments
+        """
+        sys.argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        message = "%s:%s, %s\n%s:%s, %s\n" % (
+            TABLE1_NAME, 1, 106.29, TABLE2_NAME, 4, 138.92)
+        with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
+            main()
+            self.assertEqual(fake_sys_stdout.getvalue(), message)
+
+    def test_main_4(self):
+        """
         main should properly print error message in case an Exception is caught
         """
+        sys.argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        message = "Oops, something went wrong.\n"
         with patch.dict(TABLES, {TABLE1_NAME: {'routes': ''}}, clear=True):
             with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
                 main()
-                self.assertEqual(fake_sys_stdout.getvalue(), "Oops, something \
-went wrong.\n")
+                self.assertEqual(fake_sys_stdout.getvalue(), message)
 
 
 if __name__ == '__main__':
