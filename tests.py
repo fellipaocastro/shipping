@@ -119,40 +119,40 @@ e.g., florianopolis brasilia 50 7\n"""
 
     def test_check_arguments_types_1(self):
         """
-        Shipping.check_arguments_types should return True with valid
-        arguments
+        Shipping.check_arguments_types should return True when arguments are
+        valid
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', ]
         self.assertTrue(Shipping.check_arguments_types(argv))
 
     def test_check_arguments_types_2(self):
         """
-        Shipping.check_arguments_types should return False with second
-        argument as an invalid city name
+        Shipping.check_arguments_types should return False when second argument
+        is an invalid city name
         """
         argv = ['axado.py', '1', 'brasilia', '50', '7', ]
         self.assertFalse(Shipping.check_arguments_types(argv))
 
     def test_check_arguments_types_3(self):
         """
-        Shipping.check_arguments_types should return False with third
-        argument as an invalid city name
+        Shipping.check_arguments_types should return False when third argument
+        is an invalid city name
         """
         argv = ['axado.py', 'florianopolis', '1', '50', '7', ]
         self.assertFalse(Shipping.check_arguments_types(argv))
 
     def test_check_arguments_types_4(self):
         """
-        Shipping.check_arguments_types should return False with fourth
-        argument as an invalid number
+        Shipping.check_arguments_types should return False when fourth argument
+        is an invalid number
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', 'saopaulo', '7', ]
         self.assertFalse(Shipping.check_arguments_types(argv))
 
     def test_check_arguments_types_5(self):
         """
-        Shipping.check_arguments_types should return False with fifth
-        argument as an invalid number
+        Shipping.check_arguments_types should return False when fifth argument
+        is an invalid number
         """
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', 'saopaulo', ]
         self.assertFalse(Shipping.check_arguments_types(argv))
@@ -501,7 +501,7 @@ class ShippingTable2TestCase(unittest.TestCase):
 
     def test_check_limit_1(self):
         """
-        Shipping.check_limit should return True with self.limit <= 0
+        Shipping.check_limit should return True when self.limit <= 0
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
@@ -511,7 +511,7 @@ class ShippingTable2TestCase(unittest.TestCase):
 
     def test_check_limit_2(self):
         """
-        Shipping.check_limit should return True with self.limit > 0 and
+        Shipping.check_limit should return True when self.limit > 0 and
         self.weight <= self.limit
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
@@ -522,7 +522,8 @@ class ShippingTable2TestCase(unittest.TestCase):
 
     def test_check_limit_3(self):
         """
-        Shipping.check_limit should properly set self.delivery_time
+        Shipping.check_limit should properly set self.delivery_time when
+        self.limit > 0 and self.weight > self.limit
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
@@ -532,7 +533,7 @@ class ShippingTable2TestCase(unittest.TestCase):
 
     def test_check_limit_4(self):
         """
-        Shipping.check_limit should return True with self.limit > 0 and
+        Shipping.check_limit should return False when self.limit > 0 and
         self.weight > self.limit
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
@@ -576,8 +577,7 @@ class MainTestCase(unittest.TestCase):
 
     def test_main_1(self):
         """
-        main should properly print error message in case an Exception is
-        caught
+        main should properly print error message in case an Exception is caught
         """
         with patch.dict(TABLES, {TABLE1_NAME: {'routes': ''}}, clear=True):
             with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
