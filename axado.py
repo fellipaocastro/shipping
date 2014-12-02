@@ -183,7 +183,7 @@ def main():
                 Shipping(table, sys.argv).calculate()
     except Exception:
         message = "Oops, something went wrong."
-        logger.error('message: %s' % message, exc_info=True)
+        logger.exception('message: %s' % message)
         print message
 
 if __name__ == '__main__':
