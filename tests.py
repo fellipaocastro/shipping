@@ -92,8 +92,9 @@ e.g., florianopolis brasilia 50 7\n"""
         paremeters
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6', '7']
-        check_arguments = Shipping.check_arguments(argv)
-        self.assertFalse(check_arguments)
+        with patch('sys.stdout', new=StringIO()):
+            check_arguments = Shipping.check_arguments(argv)
+            self.assertFalse(check_arguments)
 
     def test_check_arguments_4(self):
         """
@@ -114,8 +115,9 @@ e.g., florianopolis brasilia 50 7\n"""
         arguments
         """
         argv = ['axado.py', '50', 'florianopolis', 'saopaulo', '6']
-        check_arguments = Shipping.check_arguments(argv)
-        self.assertFalse(check_arguments)
+        with patch('sys.stdout', new=StringIO()):
+            check_arguments = Shipping.check_arguments(argv)
+            self.assertFalse(check_arguments)
 
     def test_check_arguments_types_1(self):
         """
