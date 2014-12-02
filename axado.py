@@ -43,16 +43,16 @@ class Shipping(object):
     @staticmethod
     def is_valid_city_name(city_name):
         logger.info('CALL %s.%s' % (Shipping.__name__, 'is_valid_city_name'))
-        return re.match("^[a-zA-Z]+$", city_name) is not None
+        return re.match('^[a-zA-Z]+$', city_name) is not None
 
     @staticmethod
     def is_valid_number(number):
         logger.info('CALL %s.%s' % (Shipping.__name__, 'is_valid_number'))
-        return re.match("^\d+\.?\d*$", number) is not None
+        return re.match('^\d+\.?\d*$', number) is not None
 
     def calculate(self):
         logger.info('CALL %s.%s' % (type(self).__name__, 'calculate'))
-        self.delivery_time, self.price, self.subtotal = "-", "-", 0.0
+        self.delivery_time, self.price, self.subtotal = '-', '-', 0.0
         if self.get_route_data():
             if self.check_limit():
                 if self.get_price_per_kg():
@@ -96,7 +96,7 @@ class Shipping(object):
         logger.info('CALL %s.%s' % (type(self).__name__, 'check_limit'))
         if (self.table == TABLE2_NAME and self.limit > 0
                 and self.weight > self.limit):
-            self.delivery_time = "-"
+            self.delivery_time = '-'
             logger.debug('self.delivery_time: %s' % self.delivery_time)
             return False
         else:
@@ -155,28 +155,28 @@ def main():
     logger.info('CALL %s' % 'main')
     logger.info('sys.argv: %s' % sys.argv)
     try:
-        message = ''
         if not Shipping.check_arguments_lengths(sys.argv):
-            message = """It is required 4 arguments in order to \
-successfuly calculate shipping.\n
+            message = '''It is required 4 arguments in order to successfuly \
+calculate shipping.\n
 They are: <origin> <destination> <receipt> <weight>.\n
-e.g., florianopolis brasilia 50 7"""
+e.g., florianopolis brasilia 50 7'''
             logger.warning('message: %s' % message)
         elif not Shipping.check_arguments_types(sys.argv):
-            message = """Whereas the first two arguments should be valid \
-city names, third and fourth ones should be valid numbers.\n
-e.g., florianopolis brasilia 50 7"""
+            message = '''Whereas the first two arguments should be valid city \
+names, third and fourth ones should be valid numbers.\n
+e.g., florianopolis brasilia 50 7'''
             logger.warning('message: %s' % message)
         else:
+            message = ''
             for table in sorted(TABLES):
                 shipping = Shipping(table, sys.argv)
                 shipping.calculate()
-                message += "%s:%s, %s\n" % (
+                message += '%s:%s, %s\n' % (
                     shipping.table, shipping.delivery_time, shipping.price)
-        message = message.strip()
-        logger.info('message: %s' % message)
+            message = message.strip()
+            logger.info('message: %s' % message)
     except Exception:
-        message = "Oops, something went wrong."
+        message = 'Oops, something went wrong.'
         logger.exception('message: %s' % message)
     finally:
         print message

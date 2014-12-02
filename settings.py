@@ -29,8 +29,8 @@ LOGGING = {
     'formatters': {
         'colored': {
             '()': 'colorlog.ColoredFormatter',
-            'format': "%(purple)s%(asctime)s %(log_color)s%(levelname)s\
-%(reset)s %(bg_blue)s[%(name)s]%(reset)-5s %(message)s",
+            'format': '%(purple)s%(asctime)s %(log_color)s%(levelname)s\
+%(reset)s %(bg_blue)s[%(name)s]%(reset)-5s %(message)s',
             'datefmt': '%Y-%m-%d %H:%M:%S',
         },
     },
