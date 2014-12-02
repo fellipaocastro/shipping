@@ -574,7 +574,7 @@ class MainTestCase(unittest.TestCase):
     def tearDownClass(cls):
         sys.argv = cls.original_sys_argv
 
-    def test_main_2(self):
+    def test_main_1(self):
         """
         main should properly print error message in case an Exception is
         caught
