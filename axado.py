@@ -27,9 +27,9 @@ class Shipping(object):
         logger.debug('self.weight: %s' % self.weight)
 
     @staticmethod
-    def check_arguments_lengths(argv):
+    def check_arguments_length(argv):
         logger.info('CALL %s.%s' % (
-            Shipping.__name__, 'check_arguments_lengths'))
+            Shipping.__name__, 'check_arguments_length'))
         return True if len(argv) == 5 else False
 
     @classmethod
@@ -155,7 +155,7 @@ def main():
     logger.info('CALL %s' % 'main')
     logger.info('sys.argv: %s' % sys.argv)
     try:
-        if not Shipping.check_arguments_lengths(sys.argv):
+        if not Shipping.check_arguments_length(sys.argv):
             message = '''It is required 4 arguments in order to successfuly \
 calculate shipping.\n
 They are: <origin> <destination> <receipt> <weight>.\n

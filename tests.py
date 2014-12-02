@@ -12,28 +12,28 @@ from settings import TABLES, TABLE1_NAME, TABLE2_NAME
 
 class ShippingStaticMethodsTestCase(unittest.TestCase):
 
-    def test_check_arguments_lengths_1(self):
+    def test_check_arguments_length_1(self):
         '''
-        Shipping.check_arguments_lengths should return True with 5 arguments
+        Shipping.check_arguments_length should return True with 5 arguments
         '''
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', ]
-        self.assertTrue(Shipping.check_arguments_lengths(argv))
+        self.assertTrue(Shipping.check_arguments_length(argv))
 
-    def test_check_arguments_lengths_2(self):
+    def test_check_arguments_length_2(self):
         '''
-        Shipping.check_arguments_lengths should return False with less than 5
+        Shipping.check_arguments_length should return False with less than 5
         arguments
         '''
         argv = ['axado.py', 'florianopolis', 'brasilia', ]
-        self.assertFalse(Shipping.check_arguments_lengths(argv))
+        self.assertFalse(Shipping.check_arguments_length(argv))
 
-    def test_check_arguments_lengths_3(self):
+    def test_check_arguments_length_3(self):
         '''
-        Shipping.check_arguments_lengths should return False with more than 5
+        Shipping.check_arguments_length should return False with more than 5
         arguments
         '''
         argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', '5', '6', ]
-        self.assertFalse(Shipping.check_arguments_lengths(argv))
+        self.assertFalse(Shipping.check_arguments_length(argv))
 
     def test_is_valid_city_name_1(self):
         '''
