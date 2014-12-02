@@ -565,15 +565,13 @@ class ShippingTable2TestCase(unittest.TestCase):
 
 class MainTestCase(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        cls.original_sys_argv = sys.argv
+    def setUp(self):
+        self.original_sys_argv = sys.argv
         sys.argv = ['axado.py', 'saopaulo', 'florianopolis',
                     '50', '6']
 
-    @classmethod
-    def tearDownClass(cls):
-        sys.argv = cls.original_sys_argv
+    def tearDown(self):
+        sys.argv = self.original_sys_argv
 
     def test_main_1(self):
         """
