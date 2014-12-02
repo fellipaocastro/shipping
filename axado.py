@@ -30,16 +30,19 @@ class Shipping(object):
     def check_arguments(cls, argv):
         logger.info('CALL %s.%s' % (cls.__name__, 'check_arguments'))
         if not cls.check_arguments_lengths(argv):
-            cls.message = """It is required 4 arguments in order to \
+            message = """It is required 4 arguments in order to \
 successfuly calculate shipping.\n
 They are: <origin> <destination> <receipt> <weight>.\n
 e.g., florianopolis brasilia 50 7"""
+            logger.warning('message: %s' % message)
         elif not cls.check_arguments_types(argv):
-            cls.message = """Whereas the first two arguments should be valid \
+            message = """Whereas the first two arguments should be valid \
 city names, third and fourth ones should be valid numbers.\n
 e.g., florianopolis brasilia 50 7"""
+            logger.warning('message: %s' % message)
         else:
             return True
+        print message
         return False
 
     @staticmethod
@@ -80,9 +83,10 @@ e.g., florianopolis brasilia 50 7"""
                     self.price = float(Decimal(self.subtotal).quantize(
                         Decimal('.01'), rounding='ROUND_UP'))
         logger.debug('self.price: %s' % self.price)
-        Shipping.message = "%s:%s, %s" % (
+        message = "%s:%s, %s" % (
             self.table, self.delivery_time, self.price)
-        logger.debug('Shipping.message: %s' % Shipping.message)
+        logger.info('message: %s' % message)
+        print message
 
     def get_route_data(self):
         logger.info('CALL %s.%s' % (type(self).__name__, 'get_route_data'))
@@ -177,10 +181,10 @@ def main():
         if Shipping.check_arguments(sys.argv):
             for table in sorted(TABLES):
                 Shipping(table, sys.argv).calculate()
-                print Shipping.message
-    except Exception as e:
-        logger.error('Exception: %s' % e, exc_info=True)
-        print "Oops, something went wrong."
+    except Exception:
+        message = "Oops, something went wrong."
+        logger.error('message: %s' % message, exc_info=True)
+        print message
 
 if __name__ == '__main__':
     logger.info('--------------------------[BEGIN]--------------------------')

@@ -74,16 +74,17 @@ class ShippingClassMethodsTestCase(unittest.TestCase):
 
     def test_check_arguments_2(self):
         """
-        Shipping.check_arguments should set proper Shipping.message with a
-        wrong number of paremeters
+        Shipping.check_arguments should print proper message with a wrong
+        number of paremeters
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6', '7']
         message = """It is required 4 arguments in order to \
 successfuly calculate shipping.\n
 They are: <origin> <destination> <receipt> <weight>.\n
-e.g., florianopolis brasilia 50 7"""
-        Shipping.check_arguments(argv)
-        self.assertEqual(message, Shipping.message)
+e.g., florianopolis brasilia 50 7\n"""
+        with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
+            Shipping.check_arguments(argv)
+            self.assertEqual(fake_sys_stdout.getvalue(), message)
 
     def test_check_arguments_3(self):
         """
@@ -96,15 +97,16 @@ e.g., florianopolis brasilia 50 7"""
 
     def test_check_arguments_4(self):
         """
-        Shipping.check_arguments should set proper Shipping.message with wrong
-        types of arguments
+        Shipping.check_arguments should print proper message with wrong types
+        of arguments
         """
         argv = ['axado.py', '50', 'florianopolis', 'saopaulo', '6']
         message = """Whereas the first two arguments should be valid \
 city names, third and fourth ones should be valid numbers.\n
-e.g., florianopolis brasilia 50 7"""
-        Shipping.check_arguments(argv)
-        self.assertEqual(message, Shipping.message)
+e.g., florianopolis brasilia 50 7\n"""
+        with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
+            Shipping.check_arguments(argv)
+            self.assertEqual(fake_sys_stdout.getvalue(), message)
 
     def test_check_arguments_5(self):
         """
@@ -200,13 +202,14 @@ class ShippingTestCase(unittest.TestCase):
 
     def test_calculate_1(self):
         """
-        Shipping.calculate should properly set Shipping.message
+        Shipping.calculate should properly print message
         """
         argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
-        message = "%s:%s, %s" % (TABLE1_NAME, 1, 106.29)
-        shipping.calculate()
-        self.assertEqual(Shipping.message, message)
+        message = "%s:%s, %s\n" % (TABLE1_NAME, 1, 106.29)
+        with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
+            shipping.calculate()
+            self.assertEqual(fake_sys_stdout.getvalue(), message)
 
     def test_get_price_per_kg_1(self):
         """
@@ -570,16 +573,6 @@ class MainTestCase(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         sys.argv = cls.original_sys_argv
-
-    def test_main_1(self):
-        """
-        main should properly print Shipping.message
-        """
-        message = "%s:%s, %s\n%s:%s, %s\n" % (
-            TABLE1_NAME, 1, 106.29, TABLE2_NAME, 4, 138.92)
-        with patch('sys.stdout', new=StringIO()) as fake_sys_stdout:
-            main()
-            self.assertEqual(fake_sys_stdout.getvalue(), message)
 
     def test_main_2(self):
         """
