@@ -6,7 +6,8 @@ from cStringIO import StringIO
 
 from mock import patch
 
-from axado import Shipping, main
+from axado import main
+from shipping import Shipping
 from settings import TABLES, TABLE1_NAME, TABLE2_NAME
 
 
