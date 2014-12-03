@@ -9,15 +9,17 @@ TABLE1_NAME = 'tabela'
 
 TABLE2_NAME = 'tabela2'
 
+STATIC_ROOT = Path(BASE_DIR, 'static')
+
 TABLES = {
     TABLE1_NAME: {
-        'routes': Path(BASE_DIR, 'static', TABLE1_NAME, 'rotas.csv'),
+        'routes': Path(STATIC_ROOT, TABLE1_NAME, 'rotas.csv'),
         'price_per_kg': Path(BASE_DIR, 'static', 'tabela', 'preco_por_kg.csv'),
         'delimiter': ',',
         'icms': 6.0,
     },
     TABLE2_NAME: {
-        'routes': Path(BASE_DIR, 'static', TABLE2_NAME, 'rotas.tsv'),
+        'routes': Path(STATIC_ROOT, TABLE2_NAME, 'rotas.tsv'),
         'price_per_kg': Path(
             BASE_DIR, 'static', 'tabela2', 'preco_por_kg.tsv'),
         'delimiter': '\t',

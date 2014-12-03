@@ -1,6 +1,6 @@
 #!/bin/bash
 BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-LOG_FILE="/tmp/shipping_`date +%Y-%m-%d`.log"
+LOGGING_FILENAME="/tmp/shipping_`date +%Y-%m-%d`.log"
 echo -e "Shipping calculator\n"
 case $1 in
     setup)
@@ -12,7 +12,7 @@ case $1 in
         ;;
     log)
         echo -e "Following end of current log file...\n"
-        tail -F $LOG_FILE
+        tail -F $LOGGING_FILENAME
         ;;
     test)
         echo "Running the test suit..."

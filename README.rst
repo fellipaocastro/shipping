@@ -10,6 +10,13 @@ Requirements
 - Python 2.7.8
 - pip 1.5.6
 
+Menu
+----
+
+.. code-block:: bash
+
+    $ ./manage.sh
+
 Setup
 -----
 
