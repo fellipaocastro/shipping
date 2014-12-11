@@ -147,9 +147,9 @@ class ShippingTestCase(unittest.TestCase):
         shipping = Shipping(TABLE1_NAME, argv)
         self.assertEqual(shipping.weight, 6.0)
 
-    def test_get_price_per_kg_1(self):
+    def test_set_price_per_kg_1(self):
         """
-        Shipping.get_price_per_kg should properly set self.price_per_kg if any
+        Shipping.set_price_per_kg should properly set self.price_per_kg if any
         row matches the following rule:
         row['nome'] == self.kg
         and float(row['inicial']) <= self.weight
@@ -159,12 +159,12 @@ class ShippingTestCase(unittest.TestCase):
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.kg = 'central'
-        shipping.get_price_per_kg()
+        shipping.set_price_per_kg()
         self.assertEqual(shipping.price_per_kg, 7.0)
 
-    def test_get_price_per_kg_2(self):
+    def test_set_price_per_kg_2(self):
         """
-        Shipping.get_price_per_kg should return True if any row matches the
+        Shipping.set_price_per_kg should return True if any row matches the
         following rule:
         row['nome'] == self.kg
         and float(row['inicial']) <= self.weight
@@ -174,12 +174,12 @@ class ShippingTestCase(unittest.TestCase):
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.kg = 'central'
-        get_price_per_kg = shipping.get_price_per_kg()
-        self.assertTrue(get_price_per_kg)
+        set_price_per_kg = shipping.set_price_per_kg()
+        self.assertTrue(set_price_per_kg)
 
-    def test_get_price_per_kg_3(self):
+    def test_set_price_per_kg_3(self):
         """
-        Shipping.get_price_per_kg should properly set self.price_per_kg if any
+        Shipping.set_price_per_kg should properly set self.price_per_kg if any
         row matches the following rule:
         row['nome'] == self.kg
         and float(row['inicial']) <= self.weight
@@ -188,12 +188,12 @@ class ShippingTestCase(unittest.TestCase):
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '34']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.kg = 'central'
-        shipping.get_price_per_kg()
+        shipping.set_price_per_kg()
         self.assertEqual(shipping.price_per_kg, 10.0)
 
-    def test_get_price_per_kg_4(self):
+    def test_set_price_per_kg_4(self):
         """
-        Shipping.get_price_per_kg should return True if any row matches the
+        Shipping.set_price_per_kg should return True if any row matches the
         following rule:
         row['nome'] == self.kg
         and float(row['inicial']) <= self.weight
@@ -202,12 +202,12 @@ class ShippingTestCase(unittest.TestCase):
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '34']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.kg = 'central'
-        get_price_per_kg = shipping.get_price_per_kg()
-        self.assertTrue(get_price_per_kg)
+        set_price_per_kg = shipping.set_price_per_kg()
+        self.assertTrue(set_price_per_kg)
 
-    def test_get_price_per_kg_5(self):
+    def test_set_price_per_kg_5(self):
         """
-        Shipping.get_price_per_kg should return False if no row matches the
+        Shipping.set_price_per_kg should return False if no row matches the
         following rule:
         row['nome'] == self.kg
         and float(row['inicial']) <= self.weight
@@ -219,8 +219,8 @@ class ShippingTestCase(unittest.TestCase):
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.kg = 'central2'
-        get_price_per_kg = shipping.get_price_per_kg()
-        self.assertFalse(get_price_per_kg)
+        set_price_per_kg = shipping.set_price_per_kg()
+        self.assertFalse(set_price_per_kg)
 
     def test_sum_insurance_1(self):
         """
@@ -257,64 +257,64 @@ class ShippingTestCase(unittest.TestCase):
 
 class ShippingTable1TestCase(unittest.TestCase):
 
-    def test_get_route_data_1(self):
+    def test_set_route_data_1(self):
         """
-        Shipping.get_route_data shoud properly set self.delivery_time
+        Shipping.set_route_data shoud properly set self.delivery_time
         """
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
-        shipping.get_route_data()
+        shipping.set_route_data()
         self.assertEqual(shipping.delivery_time, 1)
 
-    def test_get_route_data_2(self):
+    def test_set_route_data_2(self):
         """
-        Shipping.get_route_data shoud properly set self.insurance
+        Shipping.set_route_data shoud properly set self.insurance
         """
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
-        shipping.get_route_data()
+        shipping.set_route_data()
         self.assertEqual(shipping.insurance, 3.0)
 
-    def test_get_route_data_3(self):
+    def test_set_route_data_3(self):
         """
-        Shipping.get_route_data shoud properly set self.kg
+        Shipping.set_route_data shoud properly set self.kg
         """
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
-        shipping.get_route_data()
+        shipping.set_route_data()
         self.assertEqual(shipping.kg, 'central')
 
-    def test_get_route_data_4(self):
+    def test_set_route_data_4(self):
         """
-        Shipping.get_route_data shoud properly set self.fixed
+        Shipping.set_route_data shoud properly set self.fixed
         """
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
-        shipping.get_route_data()
+        shipping.set_route_data()
         self.assertEqual(shipping.fixed, 8.0)
 
-    def test_get_route_data_5(self):
+    def test_set_route_data_5(self):
         """
-        Shipping.get_route_data shoud return True if any row matches the
+        Shipping.set_route_data shoud return True if any row matches the
         following rule:
         row['origem'] == self.origin and row['destino'] == self.destination
         """
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
-        get_route_data = shipping.get_route_data()
-        self.assertTrue(get_route_data)
+        set_route_data = shipping.set_route_data()
+        self.assertTrue(set_route_data)
 
-    def test_get_route_data_6(self):
+    def test_set_route_data_6(self):
         """
-        Shipping.get_route_data should return False if no row matches the
+        Shipping.set_route_data should return False if no row matches the
         following rule:
         row['origem'] == self.origin and row['destino'] ==
         self.destination
         """
         argv = ['main.py', 'manaus', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
-        get_route_data = shipping.get_route_data()
-        self.assertFalse(get_route_data)
+        set_route_data = shipping.set_route_data()
+        self.assertFalse(set_route_data)
 
     def test_check_limit_1(self):
         """
@@ -358,82 +358,82 @@ class ShippingTable1TestCase(unittest.TestCase):
 
 class ShippingTable2TestCase(unittest.TestCase):
 
-    def test_get_route_data_1(self):
+    def test_set_route_data_1(self):
         """
-        Shipping.get_route_data shoud properly set self.delivery_time
+        Shipping.set_route_data shoud properly set self.delivery_time
         """
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
-        shipping.get_route_data()
+        shipping.set_route_data()
         self.assertEqual(shipping.delivery_time, 4)
 
-    def test_get_route_data_2(self):
+    def test_set_route_data_2(self):
         """
-        Shipping.get_route_data shoud properly set self.insurance
+        Shipping.set_route_data shoud properly set self.insurance
         """
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
-        shipping.get_route_data()
+        shipping.set_route_data()
         self.assertEqual(shipping.insurance, 7.0)
 
-    def test_get_route_data_3(self):
+    def test_set_route_data_3(self):
         """
-        Shipping.get_route_data shoud properly set self.kg
+        Shipping.set_route_data shoud properly set self.kg
         """
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
-        shipping.get_route_data()
+        shipping.set_route_data()
         self.assertEqual(shipping.kg, 'central')
 
-    def test_get_route_data_4(self):
+    def test_set_route_data_4(self):
         """
-        Shipping.get_route_data shoud properly set self.limit
+        Shipping.set_route_data shoud properly set self.limit
         """
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
-        shipping.get_route_data()
+        shipping.set_route_data()
         self.assertEqual(shipping.limit, 100.00)
 
-    def test_get_route_data_5(self):
+    def test_set_route_data_5(self):
         """
-        Shipping.get_route_data shoud properly set self.icms
+        Shipping.set_route_data shoud properly set self.icms
         """
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
-        shipping.get_route_data()
+        shipping.set_route_data()
         self.assertEqual(shipping.icms, 6.0)
 
-    def test_get_route_data_6(self):
+    def test_set_route_data_6(self):
         """
-        Shipping.get_route_data shoud properly set self.customs
+        Shipping.set_route_data shoud properly set self.customs
         """
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
-        shipping.get_route_data()
+        shipping.set_route_data()
         self.assertEqual(shipping.customs, 6.0)
 
-    def test_get_route_data_7(self):
+    def test_set_route_data_7(self):
         """
-        Shipping.get_route_data shoud return True if any row matches the
+        Shipping.set_route_data shoud return True if any row matches the
         following rule:
         row['origem'] == self.origin and row['destino'] == self.destination
         """
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
-        get_route_data = shipping.get_route_data()
-        self.assertTrue(get_route_data)
+        set_route_data = shipping.set_route_data()
+        self.assertTrue(set_route_data)
 
-    def test_get_route_data_8(self):
+    def test_set_route_data_8(self):
         """
-        Shipping.get_route_data shoud return False if no row matches the
+        Shipping.set_route_data shoud return False if no row matches the
         following rule:
         row['origem'] == self.origin and row['destino'] ==
         self.destination
         """
         argv = ['main.py', 'manaus', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
-        get_route_data = shipping.get_route_data()
-        self.assertFalse(get_route_data)
+        set_route_data = shipping.set_route_data()
+        self.assertFalse(set_route_data)
 
     def test_check_limit_1(self):
         """

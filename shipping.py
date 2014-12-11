@@ -52,9 +52,8 @@ class Shipping(object):
     def calculate(self):
         logger.info('CALL %s.%s' % (type(self).__name__, 'calculate'))
         self.delivery_time, self.price, self.subtotal = '-', '-', 0.0
-        if self.get_route_data():
-            if self.check_limit():
-                if self.get_price_per_kg():
+        if self.set_route_data() and self.check_limit() and \
+                self.set_price_per_kg():
                     self.sum_insurance()
                     self.sum_weight_price()
                     self.sum_fixed_tax()
@@ -64,8 +63,8 @@ class Shipping(object):
                         Decimal('.01'), rounding='ROUND_UP'))
         logger.debug('self.price: %s' % self.price)
 
-    def get_route_data(self):
-        logger.info('CALL %s.%s' % (type(self).__name__, 'get_route_data'))
+    def set_route_data(self):
+        logger.info('CALL %s.%s' % (type(self).__name__, 'set_route_data'))
         with open(TABLES[self.table]['routes']) as csvfile:
             reader = csv.DictReader(
                 csvfile, delimiter=TABLES[self.table]['delimiter'])
@@ -101,8 +100,8 @@ class Shipping(object):
         else:
             return True
 
-    def get_price_per_kg(self):
-        logger.info('CALL %s.%s' % (type(self).__name__, 'get_price_per_kg'))
+    def set_price_per_kg(self):
+        logger.info('CALL %s.%s' % (type(self).__name__, 'set_price_per_kg'))
         with open(TABLES[self.table]['price_per_kg']) as csvfile:
             reader = csv.DictReader(
                 csvfile, delimiter=TABLES[self.table]['delimiter'])
