@@ -6,7 +6,7 @@ from cStringIO import StringIO
 
 from mock import patch
 
-from axado import main
+from main import main
 from shipping import Shipping
 from settings import TABLES, TABLE1_NAME, TABLE2_NAME
 
@@ -17,7 +17,7 @@ class ShippingStaticMethodsTestCase(unittest.TestCase):
         """
         Shipping.check_arguments_length should return True with 5 arguments
         """
-        argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', ]
+        argv = ['main.py', 'florianopolis', 'brasilia', '50', '7', ]
         self.assertTrue(Shipping.check_arguments_length(argv))
 
     def test_check_arguments_length_2(self):
@@ -25,7 +25,7 @@ class ShippingStaticMethodsTestCase(unittest.TestCase):
         Shipping.check_arguments_length should return False with less than 5
         arguments
         """
-        argv = ['axado.py', 'florianopolis', 'brasilia', ]
+        argv = ['main.py', 'florianopolis', 'brasilia', ]
         self.assertFalse(Shipping.check_arguments_length(argv))
 
     def test_check_arguments_length_3(self):
@@ -33,7 +33,7 @@ class ShippingStaticMethodsTestCase(unittest.TestCase):
         Shipping.check_arguments_length should return False with more than 5
         arguments
         """
-        argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', '5', '6', ]
+        argv = ['main.py', 'florianopolis', 'brasilia', '50', '7', '5', '6', ]
         self.assertFalse(Shipping.check_arguments_length(argv))
 
     def test_is_valid_city_name_1(self):
@@ -69,7 +69,7 @@ class ShippingClassMethodsTestCase(unittest.TestCase):
         Shipping.check_arguments_types should return True when arguments are
         valid
         """
-        argv = ['axado.py', 'florianopolis', 'brasilia', '50', '7', ]
+        argv = ['main.py', 'florianopolis', 'brasilia', '50', '7', ]
         self.assertTrue(Shipping.check_arguments_types(argv))
 
     def test_check_arguments_types_2(self):
@@ -77,7 +77,7 @@ class ShippingClassMethodsTestCase(unittest.TestCase):
         Shipping.check_arguments_types should return False when second argument
         is an invalid city name
         """
-        argv = ['axado.py', '1', 'brasilia', '50', '7', ]
+        argv = ['main.py', '1', 'brasilia', '50', '7', ]
         self.assertFalse(Shipping.check_arguments_types(argv))
 
     def test_check_arguments_types_3(self):
@@ -85,7 +85,7 @@ class ShippingClassMethodsTestCase(unittest.TestCase):
         Shipping.check_arguments_types should return False when third argument
         is an invalid city name
         """
-        argv = ['axado.py', 'florianopolis', '1', '50', '7', ]
+        argv = ['main.py', 'florianopolis', '1', '50', '7', ]
         self.assertFalse(Shipping.check_arguments_types(argv))
 
     def test_check_arguments_types_4(self):
@@ -93,7 +93,7 @@ class ShippingClassMethodsTestCase(unittest.TestCase):
         Shipping.check_arguments_types should return False when fourth argument
         is an invalid number
         """
-        argv = ['axado.py', 'florianopolis', 'brasilia', 'saopaulo', '7', ]
+        argv = ['main.py', 'florianopolis', 'brasilia', 'saopaulo', '7', ]
         self.assertFalse(Shipping.check_arguments_types(argv))
 
     def test_check_arguments_types_5(self):
@@ -101,7 +101,7 @@ class ShippingClassMethodsTestCase(unittest.TestCase):
         Shipping.check_arguments_types should return False when fifth argument
         is an invalid number
         """
-        argv = ['axado.py', 'florianopolis', 'brasilia', '50', 'saopaulo', ]
+        argv = ['main.py', 'florianopolis', 'brasilia', '50', 'saopaulo', ]
         self.assertFalse(Shipping.check_arguments_types(argv))
 
 
@@ -111,7 +111,7 @@ class ShippingTestCase(unittest.TestCase):
         """
         Shipping.__init__ should properly initialize self.table
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         self.assertEqual(shipping.table, TABLE1_NAME)
 
@@ -119,7 +119,7 @@ class ShippingTestCase(unittest.TestCase):
         """
         Shipping.__init__ should properly initialize self.origin
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         self.assertEqual(shipping.origin, 'saopaulo')
 
@@ -127,7 +127,7 @@ class ShippingTestCase(unittest.TestCase):
         """
         Shipping.__init__ should properly initialize self.destination
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         self.assertEqual(shipping.destination, 'florianopolis')
 
@@ -135,7 +135,7 @@ class ShippingTestCase(unittest.TestCase):
         """
         Shipping.__init__ should properly initialize self.receipt
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         self.assertEqual(shipping.receipt, 50.0)
 
@@ -143,7 +143,7 @@ class ShippingTestCase(unittest.TestCase):
         """
         Shipping.__init__ should properly initialize self.weight
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         self.assertEqual(shipping.weight, 6.0)
 
@@ -156,7 +156,7 @@ class ShippingTestCase(unittest.TestCase):
         and row['final'] != ''
         and self.weight < float(row['final'])
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.kg = 'central'
         shipping.get_price_per_kg()
@@ -171,7 +171,7 @@ class ShippingTestCase(unittest.TestCase):
         and row['final'] != ''
         and self.weight < float(row['final'])
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.kg = 'central'
         get_price_per_kg = shipping.get_price_per_kg()
@@ -185,7 +185,7 @@ class ShippingTestCase(unittest.TestCase):
         and float(row['inicial']) <= self.weight
         and row['final'] == ''
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '34']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '34']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.kg = 'central'
         shipping.get_price_per_kg()
@@ -199,7 +199,7 @@ class ShippingTestCase(unittest.TestCase):
         and float(row['inicial']) <= self.weight
         and row['final'] == ''
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '34']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '34']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.kg = 'central'
         get_price_per_kg = shipping.get_price_per_kg()
@@ -216,7 +216,7 @@ class ShippingTestCase(unittest.TestCase):
                 and self.weight < float(row['final']))
             or row['final'] == '')
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.kg = 'central2'
         get_price_per_kg = shipping.get_price_per_kg()
@@ -226,7 +226,7 @@ class ShippingTestCase(unittest.TestCase):
         """
         Shipping.sum_insurance should properly set self.subtotal
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.subtotal = 0.0
         shipping.insurance = 3.0
@@ -237,7 +237,7 @@ class ShippingTestCase(unittest.TestCase):
         """
         Shipping.sum_weight_price should properly set self.subtotal
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.subtotal = 1.5
         shipping.price_per_kg = 7.0
@@ -248,7 +248,7 @@ class ShippingTestCase(unittest.TestCase):
         """
         Shipping.sum_icms should properly set self.subtotal
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.subtotal = 51.5
         shipping.sum_icms()
@@ -261,7 +261,7 @@ class ShippingTable1TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.delivery_time
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.delivery_time, 1)
@@ -270,7 +270,7 @@ class ShippingTable1TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.insurance
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.insurance, 3.0)
@@ -279,7 +279,7 @@ class ShippingTable1TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.kg
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.kg, 'central')
@@ -288,7 +288,7 @@ class ShippingTable1TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.fixed
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.fixed, 8.0)
@@ -299,7 +299,7 @@ class ShippingTable1TestCase(unittest.TestCase):
         following rule:
         row['origem'] == self.origin and row['destino'] == self.destination
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         get_route_data = shipping.get_route_data()
         self.assertTrue(get_route_data)
@@ -311,7 +311,7 @@ class ShippingTable1TestCase(unittest.TestCase):
         row['origem'] == self.origin and row['destino'] ==
         self.destination
         """
-        argv = ['axado.py', 'manaus', 'florianopolis', '50', '6']
+        argv = ['main.py', 'manaus', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         get_route_data = shipping.get_route_data()
         self.assertFalse(get_route_data)
@@ -320,7 +320,7 @@ class ShippingTable1TestCase(unittest.TestCase):
         """
         Shipping.check_limit should return True
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         check_limit = shipping.check_limit()
         self.assertTrue(check_limit)
@@ -329,7 +329,7 @@ class ShippingTable1TestCase(unittest.TestCase):
         """
         Shipping.sum_fixed_tax should properly set self.subtotal
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.subtotal, shipping.fixed = 43.5, 8.0
         shipping.sum_fixed_tax()
@@ -339,7 +339,7 @@ class ShippingTable1TestCase(unittest.TestCase):
         """
         Shipping.sum_customs should not change the value of self.subtotal
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.subtotal = 51.5
         shipping.sum_customs()
@@ -349,7 +349,7 @@ class ShippingTable1TestCase(unittest.TestCase):
         """
         Shipping.sum_icms should properly set self.icms
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE1_NAME, argv)
         shipping.subtotal = 51.5
         shipping.sum_icms()
@@ -362,7 +362,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.delivery_time
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.delivery_time, 4)
@@ -371,7 +371,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.insurance
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.insurance, 7.0)
@@ -380,7 +380,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.kg
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.kg, 'central')
@@ -389,7 +389,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.limit
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.limit, 100.00)
@@ -398,7 +398,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.icms
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.icms, 6.0)
@@ -407,7 +407,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         Shipping.get_route_data shoud properly set self.customs
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.get_route_data()
         self.assertEqual(shipping.customs, 6.0)
@@ -418,7 +418,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         following rule:
         row['origem'] == self.origin and row['destino'] == self.destination
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         get_route_data = shipping.get_route_data()
         self.assertTrue(get_route_data)
@@ -430,7 +430,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         row['origem'] == self.origin and row['destino'] ==
         self.destination
         """
-        argv = ['axado.py', 'manaus', 'florianopolis', '50', '6']
+        argv = ['main.py', 'manaus', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         get_route_data = shipping.get_route_data()
         self.assertFalse(get_route_data)
@@ -439,7 +439,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         Shipping.check_limit should return True when self.limit <= 0
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.limit = 0
         check_limit = shipping.check_limit()
@@ -450,7 +450,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         Shipping.check_limit should return True when self.limit > 0 and
         self.weight <= self.limit
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.limit = 100.00
         check_limit = shipping.check_limit()
@@ -461,7 +461,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         Shipping.check_limit should properly set self.delivery_time when
         self.limit > 0 and self.weight > self.limit
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.limit = 5.00
         shipping.check_limit()
@@ -472,7 +472,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         Shipping.check_limit should return False when self.limit > 0 and
         self.weight > self.limit
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.limit = 5.00
         check_limit = shipping.check_limit()
@@ -482,7 +482,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         Shipping.sum_fixed_tax should not change the value of self.subtotal
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.subtotal = 63.5
         shipping.sum_fixed_tax()
@@ -492,7 +492,7 @@ class ShippingTable2TestCase(unittest.TestCase):
         """
         Shipping.sum_customs should properly set self.subtotal
         """
-        argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         shipping = Shipping(TABLE2_NAME, argv)
         shipping.subtotal, shipping.customs = 63.5, 6.0
         shipping.sum_customs()
@@ -513,12 +513,12 @@ class MainTestCase(unittest.TestCase):
         """
         main should print proper message with a wrong number of paremeters
         """
-        sys.argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6', '7']
+        sys.argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6', '7']
         message = '''It is required 4 arguments in order to successfuly \
 calculate shipping.\n
 They are: <origin> <destination> <receipt> <weight>.\n
 e.g., florianopolis brasilia 50 7\n'''
-        with patch('axado.sys.stdout', new=StringIO()) as fake_sys_stdout:
+        with patch('main.sys.stdout', new=StringIO()) as fake_sys_stdout:
             main()
             self.assertEqual(fake_sys_stdout.getvalue(), message)
 
@@ -526,11 +526,11 @@ e.g., florianopolis brasilia 50 7\n'''
         """
         main should print proper message with wrong types of arguments
         """
-        sys.argv = ['axado.py', '50', 'florianopolis', 'saopaulo', '6']
+        sys.argv = ['main.py', '50', 'florianopolis', 'saopaulo', '6']
         message = '''Whereas the first two arguments should be valid city \
 names, third and fourth ones should be valid numbers.\n
 e.g., florianopolis brasilia 50 7\n'''
-        with patch('axado.sys.stdout', new=StringIO()) as fake_sys_stdout:
+        with patch('main.sys.stdout', new=StringIO()) as fake_sys_stdout:
             main()
             self.assertEqual(fake_sys_stdout.getvalue(), message)
 
@@ -539,10 +539,10 @@ e.g., florianopolis brasilia 50 7\n'''
         main should properly print the result in case there were no issues
         regarding the given arguments
         """
-        sys.argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        sys.argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         message = '%s:%s, %s\n%s:%s, %s\n' % (
             TABLE1_NAME, 1, 106.29, TABLE2_NAME, 4, 138.92)
-        with patch('axado.sys.stdout', new=StringIO()) as fake_sys_stdout:
+        with patch('main.sys.stdout', new=StringIO()) as fake_sys_stdout:
             main()
             self.assertEqual(fake_sys_stdout.getvalue(), message)
 
@@ -550,10 +550,10 @@ e.g., florianopolis brasilia 50 7\n'''
         """
         main should properly print error message in case an Exception is caught
         """
-        sys.argv = ['axado.py', 'saopaulo', 'florianopolis', '50', '6']
+        sys.argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
         message = 'Oops, something went wrong.\n'
         with patch.dict(TABLES, {TABLE1_NAME: {'routes': ''}}, clear=True):
-            with patch('axado.sys.stdout', new=StringIO()) as fake_sys_stdout:
+            with patch('main.sys.stdout', new=StringIO()) as fake_sys_stdout:
                 main()
                 self.assertEqual(fake_sys_stdout.getvalue(), message)
 

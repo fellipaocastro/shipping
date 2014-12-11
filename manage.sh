@@ -8,7 +8,7 @@ case $1 in
         pip install -r $BASE_DIR/requirements/production.txt
         ;;
     run)
-        $BASE_DIR/axado.py ${@:2}
+        $BASE_DIR/main.py ${@:2}
         ;;
     log)
         echo -e "Following end of current log file...\n"
@@ -24,7 +24,7 @@ case $1 in
         ;;
     *)
         echo "Usage:"
-        echo -e "  axado/manage.sh <command>\n"
+        echo -e "  ./manage.sh <command>\n"
         echo "Available commands:"
         echo "  setup\
                                                 Install dependencies"
