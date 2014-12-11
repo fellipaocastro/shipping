@@ -17,7 +17,7 @@ case $1 in
 
     run)
 
-        $BASE_DIR/axado.py ${@:2}
+        $BASE_DIR/main.py ${@:2}
 
         ;;
 
@@ -49,7 +49,7 @@ case $1 in
 
         echo "Usage:"
 
-        echo -e "  axado/manage.sh <command>\n"
+        echo -e "  ./manage.sh <command>\n"
 
         echo "Available commands:"
 
