@@ -62,10 +62,10 @@ e.g., florianopolis brasilia 50 7'''
         print message
 
 if __name__ == '__main__':
-    logger.info('--------------------------[BEGIN]--------------------------')
+    logger.info('{0}[BEGIN]{0}'.format('-' * 26))
     logger.info('')
 
     main()
 
     logger.info('')
-    logger.info('---------------------------[END]---------------------------')
+    logger.info('{0}[END]{0}'.format('-' * 27))
