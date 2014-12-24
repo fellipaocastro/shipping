@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
+from __future__ import absolute_import, print_function
 import sys
 import logging
 import logging.config
@@ -59,7 +60,7 @@ e.g., florianopolis brasilia 50 7'''
 
     finally:
 
-        print message
+        print(message)
 
 if __name__ == '__main__':
     logger.info('{0}[BEGIN]{0}'.format('-' * 26))
