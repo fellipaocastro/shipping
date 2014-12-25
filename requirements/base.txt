@@ -6,3 +6,4 @@ coverage==3.7.1
 colorlog==2.4.0
 Unipath==1.0
 mock==1.0.1
+pylint==1.4.0
