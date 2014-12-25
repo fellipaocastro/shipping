@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
+from __future__ import absolute_import
 import logging
 import logging.config
 import re
@@ -17,8 +18,15 @@ class Shipping(object):
     def __init__(self, table, argv):
         logger.info('CALL %s.%s' % (type(self).__name__, '__init__'))
 
-        self.table, self.origin, self.destination = table, argv[1].lower(), argv[2].lower()
+        self.table = table
+
+        self.origin, self.destination = argv[1].lower(), argv[2].lower()
         self.receipt, self.weight = float(argv[3]), float(argv[4])
+
+        self.kg = self.price_per_kg = self.customs = self.limit = self.icms = self.fixed = None
+        self.subtotal = self.insurance = None
+
+        self.delivery_time = self.price = '-'
 
     @staticmethod
     def check_arguments_length(argv):
@@ -46,12 +54,11 @@ class Shipping(object):
     def is_valid_number(number):
         logger.info('CALL %s.%s' % (Shipping.__name__, 'is_valid_number'))
 
-        return re.match('^\d+\.?\d*$', number) is not None
+        return re.match(r'^\d+\.?\d*$', number) is not None
 
     def calculate(self):
         logger.info('CALL %s.%s' % (type(self).__name__, 'calculate'))
 
-        self.delivery_time = self.price = '-'
         self.subtotal = 0.0
 
         if self.set_route_data() and self.check_limit() and self.set_price_per_kg():
@@ -77,7 +84,7 @@ class Shipping(object):
             reader = csv.DictReader(csvfile, delimiter=TABLES[self.table]['delimiter'])
 
             for row in reader:
-                if (row['origem'] == self.origin and row['destino'] == self.destination):
+                if row['origem'] == self.origin and row['destino'] == self.destination:
                     self.delivery_time = int(row['prazo'])
                     self.insurance = float(row['seguro'])
                     self.kg = row['kg']
@@ -96,8 +103,6 @@ class Shipping(object):
         logger.info('CALL %s.%s' % (type(self).__name__, 'check_limit'))
 
         if self.table == TABLE2_NAME and self.limit > 0 and self.weight > self.limit:
-            self.delivery_time = '-'
-
             return False
         else:
             return True
@@ -109,13 +114,13 @@ class Shipping(object):
             reader = csv.DictReader(csvfile, delimiter=TABLES[self.table]['delimiter'])
 
             for row in reader:
-                if row['nome'] == self.kg and float(row['inicial']) <= self.weight\
-                    and (
-                        (row['final'] != '' and self.weight < float(row['final']))
-                        or row['final'] == ''):
-                            self.price_per_kg = float(row['preco'])
+                condition_1 = row['nome'] == self.kg and float(row['inicial']) <= self.weight
+                condition_2 = row['final'] != '' and self.weight < float(row['final'])
 
-                            return True
+                if condition_1 and (condition_2 or row['final'] == ''):
+                    self.price_per_kg = float(row['preco'])
+
+                    return True
         return False
 
     def sum_insurance(self):

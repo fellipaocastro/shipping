@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
+from __future__ import absolute_import
 import unittest
 import sys
 from cStringIO import StringIO
@@ -167,8 +168,7 @@ class ShippingTestCase(unittest.TestCase):
         row matches the following rule:
         row['nome'] == self.kg
         and float(row['inicial']) <= self.weight
-        and row['final'] != ''
-        and self.weight < float(row['final'])
+        and row['final'] != '' and self.weight < float(row['final'])
         """
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
 
@@ -184,8 +184,7 @@ class ShippingTestCase(unittest.TestCase):
         following rule:
         row['nome'] == self.kg
         and float(row['inicial']) <= self.weight
-        and row['final'] != ''
-        and self.weight < float(row['final'])
+        and row['final'] != '' and self.weight < float(row['final'])
         """
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
 
@@ -234,8 +233,7 @@ class ShippingTestCase(unittest.TestCase):
         row['nome'] == self.kg
         and float(row['inicial']) <= self.weight
         and (
-            (row['final'] != ''
-                and self.weight < float(row['final']))
+            (row['final'] != '' and self.weight < float(row['final']))
             or row['final'] == '')
         """
         argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6']
