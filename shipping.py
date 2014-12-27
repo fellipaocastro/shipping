@@ -32,23 +32,22 @@ class Shipping(object):
     def check_arguments_length(argv):
         logger.info('CALL %s.%s' % (Shipping.__name__, 'check_arguments_length'))
 
-        return True if len(argv) == 5 else False
+        return len(argv) == 5
 
     @classmethod
     def check_arguments_types(cls, argv):
         logger.info('CALL %s.%s' % (cls.__name__, 'check_arguments_types'))
 
-        if cls.is_valid_city_name(argv[1]) and cls.is_valid_city_name(argv[2])\
-                and cls.is_valid_number(argv[3]) and cls.is_valid_number(argv[4]):
-            return True
+        condition_1 = cls.is_valid_city_name(argv[1]) and cls.is_valid_city_name(argv[2])
+        condition_2 = cls.is_valid_number(argv[3]) and cls.is_valid_number(argv[4])
 
-        return False
+        return condition_1 and condition_2
 
     @staticmethod
     def is_valid_city_name(city_name):
         logger.info('CALL %s.%s' % (Shipping.__name__, 'is_valid_city_name'))
 
-        return re.match('^[a-zA-Z]+$', city_name) is not None
+        return re.match(r'^[a-zA-Z]+$', city_name) is not None
 
     @staticmethod
     def is_valid_number(number):
@@ -104,8 +103,8 @@ class Shipping(object):
 
         if self.table == TABLE2_NAME and self.limit > 0 and self.weight > self.limit:
             return False
-        else:
-            return True
+
+        return True
 
     def set_price_per_kg(self):
         logger.info('CALL %s.%s' % (type(self).__name__, 'set_price_per_kg'))
