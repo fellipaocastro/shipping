@@ -16,7 +16,7 @@ logging.config.dictConfig(LOGGING)
 class Shipping(object):
 
     def __init__(self, table, argv):
-        logger.info('CALL %s.%s' % (type(self).__name__, '__init__'))
+        logger.info('CALL {}.{}'.format(type(self).__name__, '__init__'))
 
         self.table = table
 
@@ -30,13 +30,13 @@ class Shipping(object):
 
     @staticmethod
     def check_arguments_length(argv):
-        logger.info('CALL %s.%s' % (Shipping.__name__, 'check_arguments_length'))
+        logger.info('CALL {}.{}'.format(Shipping.__name__, 'check_arguments_length'))
 
         return len(argv) == 5
 
     @classmethod
     def check_arguments_types(cls, argv):
-        logger.info('CALL %s.%s' % (cls.__name__, 'check_arguments_types'))
+        logger.info('CALL {}.{}'.format(cls.__name__, 'check_arguments_types'))
 
         condition_1 = cls.is_valid_city_name(argv[1]) and cls.is_valid_city_name(argv[2])
         condition_2 = cls.is_valid_number(argv[3]) and cls.is_valid_number(argv[4])
@@ -45,18 +45,18 @@ class Shipping(object):
 
     @staticmethod
     def is_valid_city_name(city_name):
-        logger.info('CALL %s.%s' % (Shipping.__name__, 'is_valid_city_name'))
+        logger.info('CALL {}.{}'.format(Shipping.__name__, 'is_valid_city_name'))
 
         return re.match(r'^[a-zA-Z]+$', city_name) is not None
 
     @staticmethod
     def is_valid_number(number):
-        logger.info('CALL %s.%s' % (Shipping.__name__, 'is_valid_number'))
+        logger.info('CALL {}.{}'.format(Shipping.__name__, 'is_valid_number'))
 
         return re.match(r'^\d+\.?\d*$', number) is not None
 
     def calculate(self):
-        logger.info('CALL %s.%s' % (type(self).__name__, 'calculate'))
+        logger.info('CALL {}.{}'.format(type(self).__name__, 'calculate'))
 
         self.subtotal = 0.0
 
@@ -76,7 +76,7 @@ class Shipping(object):
                 Decimal('.01'), rounding='ROUND_UP'))
 
     def set_route_data(self):
-        logger.info('CALL %s.%s' % (type(self).__name__, 'set_route_data'))
+        logger.info('CALL {}.{}'.format(type(self).__name__, 'set_route_data'))
 
         with open(TABLES[self.table]['routes']) as csvfile:
 
@@ -96,10 +96,9 @@ class Shipping(object):
                         self.customs = float(row['alfandega'])
 
                     return True
-        return False
 
     def check_limit(self):
-        logger.info('CALL %s.%s' % (type(self).__name__, 'check_limit'))
+        logger.info('CALL {}.{}'.format(type(self).__name__, 'check_limit'))
 
         if self.table == TABLE2_NAME and self.limit > 0 and self.weight > self.limit:
             return False
@@ -107,7 +106,7 @@ class Shipping(object):
         return True
 
     def set_price_per_kg(self):
-        logger.info('CALL %s.%s' % (type(self).__name__, 'set_price_per_kg'))
+        logger.info('CALL {}.{}'.format(type(self).__name__, 'set_price_per_kg'))
 
         with open(TABLES[self.table]['price_per_kg']) as csvfile:
             reader = csv.DictReader(csvfile, delimiter=TABLES[self.table]['delimiter'])
@@ -120,32 +119,31 @@ class Shipping(object):
                     self.price_per_kg = float(row['preco'])
 
                     return True
-        return False
 
     def sum_insurance(self):
-        logger.info('CALL %s.%s' % (type(self).__name__, 'sum_insurance'))
+        logger.info('CALL {}.{}'.format(type(self).__name__, 'sum_insurance'))
 
         self.subtotal += self.receipt * self.insurance / 100
 
     def sum_weight_price(self):
-        logger.info('CALL %s.%s' % (type(self).__name__, 'sum_weight_price'))
+        logger.info('CALL {}.{}'.format(type(self).__name__, 'sum_weight_price'))
 
         self.subtotal += self.price_per_kg * self.weight
 
     def sum_fixed_tax(self):
-        logger.info('CALL %s.%s' % (type(self).__name__, 'sum_fixed_tax'))
+        logger.info('CALL {}.{}'.format(type(self).__name__, 'sum_fixed_tax'))
 
         if self.table == TABLE1_NAME:
             self.subtotal += self.fixed
 
     def sum_customs(self):
-        logger.info('CALL %s.%s' % (type(self).__name__, 'sum_customs'))
+        logger.info('CALL {}.{}'.format(type(self).__name__, 'sum_customs'))
 
         if self.table == TABLE2_NAME:
             self.subtotal += self.subtotal * (self.customs / 100)
 
     def sum_icms(self):
-        logger.info('CALL %s.%s' % (type(self).__name__, 'sum_icms'))
+        logger.info('CALL {}.{}'.format(type(self).__name__, 'sum_icms'))
 
         if self.table == TABLE1_NAME:
             self.icms = TABLES[self.table]['icms']

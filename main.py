@@ -13,23 +13,22 @@ logging.config.dictConfig(LOGGING)
 
 
 def main():
-    logger.info('CALL %s' % 'main')
-    logger.info('sys.argv: %s' % sys.argv)
+    logger.info('CALL {}'.format('main'))
+    logger.info('sys.argv: {}'.format(sys.argv))
 
     try:
         if not Shipping.check_arguments_length(sys.argv):
-            message = '''It is required 4 arguments in order to successfuly \
-calculate shipping.\n
+            message = '''It is required 4 arguments in order to successfuly calculate shipping.\n
 They are: <origin> <destination> <receipt> <weight>.\n
 e.g., florianopolis brasilia 50 7'''
 
-            logger.warning('message: %s' % message)
+            logger.warning('message: {}'.format(message))
         elif not Shipping.check_arguments_types(sys.argv):
-            message = '''Whereas the first two arguments should be valid city \
-names, third and fourth ones should be valid numbers.\n
+            message = '''Whereas the first two arguments should be valid city names, third and \
+fourth ones should be valid numbers.\n
 e.g., florianopolis brasilia 50 7'''
 
-            logger.warning('message: %s' % message)
+            logger.warning('message: {}'.format(message))
         else:
             message = ''
 
@@ -38,16 +37,16 @@ e.g., florianopolis brasilia 50 7'''
 
                 shipping.calculate()
 
-                message += '%s:%s, %s\n' % (
+                message += '{}:{}, {}\n'.format(
                     shipping.table, shipping.delivery_time, shipping.price)
 
             message = message.strip()
 
-            logger.info('message: %s' % message)
+            logger.info('message: {}'.format(message))
     except Exception:
         message = 'Oops, something went wrong.'
 
-        logger.exception('message: %s' % message)
+        logger.exception('message: {}'.format(message))
     finally:
         print(message)
 

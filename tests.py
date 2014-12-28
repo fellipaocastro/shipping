@@ -228,7 +228,7 @@ class ShippingTestCase(unittest.TestCase):
 
     def test_set_price_per_kg_5(self):
         """
-        Shipping.set_price_per_kg should return False if no row matches the
+        Shipping.set_price_per_kg should return None if no row matches the
         following rule:
         row['nome'] == self.kg
         and float(row['inicial']) <= self.weight
@@ -242,7 +242,7 @@ class ShippingTestCase(unittest.TestCase):
         shipping.kg = 'central2'
         set_price_per_kg = shipping.set_price_per_kg()
 
-        self.assertFalse(set_price_per_kg)
+        self.assertIsNone(set_price_per_kg)
 
     def test_sum_insurance_1(self):
         """
@@ -344,8 +344,7 @@ class ShippingTable1TestCase(unittest.TestCase):
 
     def test_set_route_data_6(self):
         """
-        Shipping.set_route_data should return False if no row matches the
-        following rule:
+        Shipping.set_route_data should return None if no row matches the following rule:
         row['origem'] == self.origin and row['destino'] ==
         self.destination
         """
@@ -354,7 +353,7 @@ class ShippingTable1TestCase(unittest.TestCase):
         shipping = Shipping(TABLE1_NAME, argv)
         set_route_data = shipping.set_route_data()
 
-        self.assertFalse(set_route_data)
+        self.assertIsNone(set_route_data)
 
     def test_check_limit_1(self):
         """
@@ -591,8 +590,7 @@ class MainTestCase(unittest.TestCase):
         """
         sys.argv = ['main.py', 'saopaulo', 'florianopolis', '50', '6', '7']
 
-        message = '''It is required 4 arguments in order to successfuly \
-calculate shipping.\n
+        message = '''It is required 4 arguments in order to successfuly calculate shipping.\n
 They are: <origin> <destination> <receipt> <weight>.\n
 e.g., florianopolis brasilia 50 7\n'''
 
@@ -607,8 +605,8 @@ e.g., florianopolis brasilia 50 7\n'''
         """
         sys.argv = ['main.py', '50', 'florianopolis', 'saopaulo', '6']
 
-        message = '''Whereas the first two arguments should be valid city \
-names, third and fourth ones should be valid numbers.\n
+        message = '''Whereas the first two arguments should be valid city names, third and \
+fourth ones should be valid numbers.\n
 e.g., florianopolis brasilia 50 7\n'''
 
         with patch('main.sys.stdout', new=StringIO()) as fake_sys_stdout:
