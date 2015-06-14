@@ -33,7 +33,7 @@ case $1 in
 
         echo "Running the test suit..."
 
-        nosetests tests
+        nosetests test
 
         ;;
 
@@ -42,6 +42,12 @@ case $1 in
         echo -e "Running source code checker...\n"
 
         flake8 $BASE_DIR
+
+        ;;
+
+    shell)
+
+        ipython
 
         ;;
 
@@ -59,15 +65,18 @@ case $1 in
         echo "  run <origin> <destination> <receipt> <weight>\
         Start shipping calculator"
 
+        echo "  test\
+                                                 Run the test suit"
+
         echo "  log\
                                                   Follow end of current log \
 file"
 
-        echo "  test\
-                                                 Run the test suit"
-
         echo "  check\
                                                 Run source code checker"
+
+        echo "  shell\
+                                                Open an enhanced Interactive Python"
 
         ;;
 

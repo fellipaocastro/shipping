@@ -4,12 +4,6 @@ Shipping
 This is a shipping calculator that estimates the time and cost of delivery
 based on given route, receipt value and item's weight.
 
-Requirements
-------------
-
-- Python 2.7.8
-- pip 1.5.6
-
 Menu
 ----
 
@@ -31,6 +25,13 @@ Usage
 
     $ ./manage.sh run <origin> <destination> <receipt> <weight>
 
+Test
+----
+
+.. code-block:: bash
+
+    $ ./manage.sh test
+
 Log
 ---
 
@@ -40,16 +41,16 @@ Log
 
     $ ./manage.sh log
 
-Test
-----
-
-.. code-block:: bash
-
-    $ ./manage.sh test
-
 Source code check
 -----------------
 
 .. code-block:: bash
 
     $ ./manage.sh check
+
+Interactive Python
+------------------
+
+.. code-block:: bash
+
+    $ ./manage.sh shell
