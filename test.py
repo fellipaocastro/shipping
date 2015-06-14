@@ -577,11 +577,11 @@ class ShippingTable2TestCase(unittest.TestCase):
 class MainTestCase(unittest.TestCase):
 
     @classmethod
-    def setUp(cls):
+    def setUpClass(cls):
         cls.original_sys_argv = sys.argv
 
     @classmethod
-    def tearDown(cls):
+    def tearDownClass(cls):
         sys.argv = cls.original_sys_argv
 
     def test_main_1(self):
