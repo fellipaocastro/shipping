@@ -21,6 +21,8 @@ Setup
 Usage
 -----
 
+    (e.g., ./manage.sh run florianopolis saopaulo 3 10)
+
 .. code-block:: bash
 
     $ ./manage.sh run <origin> <destination> <receipt> <weight>
