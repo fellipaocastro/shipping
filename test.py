@@ -643,6 +643,5 @@ e.g., florianopolis brasilia 50 7\n'''
 
                 self.assertEqual(fake_sys_stdout.getvalue(), message)
 
-
 if __name__ == '__main__':
     unittest.main()
